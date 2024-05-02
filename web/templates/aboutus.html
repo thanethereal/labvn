@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Itim|Lobster|Montserrat:500|Noto+Serif|Nunito|Patrick+Hand|Roboto+Mono:100,100i,300,300i,400,400i,500,500i,700,700i|Roboto+Slab|Saira" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>Life’s a beach VietNam</title>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+        </div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="../static/img/527619306.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="../static/img/445476376.jpg" alt=""></div>
+                <!-- Thêm các slide khác ở đây -->
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <!-- Phần "Our Story" -->
+    <div>
+        <div class="row justify-content-center">
+            <div class="text-center">
+                <h1 class="section-header">Our Story</h1>
+            </div>
+        </div>
+    </div>
+    
+    {% for item in our_story %}
+    <section class="description-section">
+        <div class="description-content">
+            {% if loop.index % 2 == 0 %}
+            <!-- Nếu là section chẵn, hiển thị hình ảnh trước và sau đó văn bản -->
+            <div class="description-image">
+                <img src="{{ item.image_url }}" alt="Description Image">
+            </div>
+            <div class="description-text">
+                <p>{{ item.text }}</p>
+            </div>
+            {% else %}
+            <!-- Nếu là section lẻ, hiển thị văn bản trước và sau đó hình ảnh -->
+            <div class="description-text">
+                <p>{{ item.text }}</p>
+            </div>
+            <div class="description-image">
+                <img src="{{ item.image_url }}" alt="Description Image">
+            </div>
+            {% endif %}
+        </div>
+    </section>
+    {% endfor %}
+    
+    <!-- Phần "Tourism Benefit Everyone " -->
+    <div>
+        <div class="row justify-content-center">
+            <div class="text-center">
+                <h1 class="section-header">Tourism Benefit Everyone</h1>
+            </div>
+        </div>
+    </div>
+    {% for item in tourism_benefit_everyones %}
+    <section class="description-section">
+        <div class="description-content">
+            {% if loop.index % 2 == 0 %}
+            <!-- Nếu là section chẵn, hiển thị hình ảnh trước và sau đó văn bản -->
+            <div class="description-image">
+                <img src="{{ item.image_url }}" alt="Description Image">
+            </div>
+            <div class="description-text">
+                <p>{{ item.text }}</p>
+            </div>
+            {% else %}
+            <!-- Nếu là section lẻ, hiển thị văn bản trước và sau đó hình ảnh -->
+            <div class="description-text">
+                <p>{{ item.text }}</p>
+            </div>
+            <div class="description-image">
+                <img src="{{ item.image_url }}" alt="Description Image">
+            </div>
+            {% endif %}
+        </div>
+    </section>
+    {% endfor %}
+    <!-- Phần thông tin nhân viên -->
+    <section class="team">
+        <div>
+            <h2>Our Team</h2>
+            <div class="member">
+                {% for member in profiles %}
+                <div class="profile">
+                    <a href="{{ url_for('member_profile', id=member.id) }}">
+                        <img src="{{ member.avatar }}" alt="{{ member.name }}">
+                        <h3>{{ member.name }}</h3>
+                    </a>
+                    <p>{{ member.role }}</p>
+                    <div class="social-icons">
+                        <a href="{{ member.facebook }}"><i class="fa fa-facebook"></i></a>
+                        <a href="{{ member.instagram }}"><i class="fa fa-instagram"></i></a>
+                        <a href="{{ member.zalo }}"><i class="fa fa-zalo"></i></a>
+                        <!-- Thêm các liên kết và icon khác tại đây -->
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    
+    
+    <div class="booking-container">
+        <!-- Booking Button -->
+        <button class="booking-button" onclick="redirectToBookingPage()">Booking Now</button>
+        <!-- End Booking Button -->
+    </div>
+    <!-- End Booking Button -->
+    {% include 'footer.html' %}
+
+    <script>
+        function redirectToBookingPage() {
+            // Replace the URL with your booking page URL
+            window.location.href = "https://925a4e94691ca736.sirvoy.me/";
+        }
+    </script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            loop: true,
+            autoplay: {
+                delay: 2000, // Thời gian hiển thị của mỗi slide (ms)
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+    </script>
+    <!-- JavaScript để kích hoạt Fancybox -->
+    <script>
+        $(document).ready(function() {
+            $("[data-fancybox]").fancybox({
+                buttons: [
+                    "slideShow",
+                    "fullScreen",
+                    "thumbs",
+                    "close"
+            ],
+            loop: true
+        });
+    });
+</script>
+</body>
+</html>

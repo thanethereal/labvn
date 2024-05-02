@@ -1,0 +1,282 @@
+<!doctype html>
+<!-- 
+* Bootstrap Simple Admin Template
+* Version: 2.1
+* Author: Alexis Luna
+* Website: https://github.com/alexis-luna/bootstrap-simple-admin-template
+-->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dashboard | Bootstrap Simple Admin Template</title>
+    <link href="{{ url_for('static', filename='assets/vendor/fontawesome/css/fontawesome.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/fontawesome/css/solid.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/fontawesome/css/brands.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/master.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/flagiconcss/css/flag-icon.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <title>Edit Index Page</title>
+    <style>
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        textarea, input[type="text"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+        .edit, .delete {
+            text-decoration: none;
+            color: #007bff;
+            margin-right: 10px;
+        }
+        .edit:hover, .delete:hover {
+            text-decoration: underline;
+        }
+        .edit-icon, .delete-icon {
+            font-size: 18px;
+            vertical-align: middle;
+        }
+        /* CSS cho popup */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        {% include 'sidebar.html' %}
+        <div id="body" class="active">
+            <!-- navbar navigation component -->
+            {% include 'navbar.html' %}
+            <!-- end of navbar navigation -->
+            <div class="content">
+                <div class="container">
+                    <!-- Form để thêm dữ liệu mới -->
+                    <h2 class="card-title">Add New Activity</h2>
+                    <form action="/add_activities" method="post">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Activity Name:</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter activity name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description:</label>
+                            <textarea id="description" name="description" class="form-control" rows="4" placeholder="Enter description"></textarea>
+                        </div>
+                        <div class="mb-3" id="image-input-container">
+                            <label class="form-label">Image URLs:</label>
+                            <div class="image-input">
+                                <input type="text" name="image_urls[]" class="form-control" placeholder="Enter image URL">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary mb-3" onclick="addImageInput()">Add More Image</button>
+                        <br>
+                        <input type="submit" value="Submit" class="btn btn-success">
+                    </form>
+                    
+                    <script>
+                        function addImageInput() {
+                            var container = document.getElementById('image-input-container');
+                            var div = document.createElement('div');
+                            div.classList.add('image-input');
+                            div.innerHTML = '<label>Image URL:</label> <input type="text" name="image_urls[]">';
+                            container.appendChild(div);
+                        }
+                    </script>
+                    </form>
+        
+                    <!-- Bảng hiển thị các mục đã có trong cơ sở dữ liệu -->
+                    <h2>List Activities</h2>
+                    <style>
+                        .thumbnail-wrapper {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 10px;
+                        }
+
+                        .thumbnail {
+                            max-width: 100px; /* Đặt kích thước tối đa cho ảnh */
+                            height: auto;
+                        }
+
+                    </style>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Image</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in activities %}
+                                <tr>
+                                    <td>{{ item.name }}</td>
+                                    <td>
+                                        <div class="thumbnail-wrapper">
+                                            {% for image_url in item.image_urls %}
+                                            <img src="{{ image_url }}" alt="{{ image_url }}" class="thumbnail">
+                                            {% endfor %}
+                                        </div>
+                                    </td>
+                                    <td>{{ item.description }}</td>
+                                    <td>
+                                        <a href="/update_activities/{{ item.id }}" class="edit btn btn-primary" data-item-id="{{ item.id }}"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="/delete_activities/{{ item.id }}" class="delete btn btn-danger"><i class="fas fa-trash-alt"></i> Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="popup-overlay" id="popup">
+                        <div class="popup-content">
+                            <span class="close-btn" id="close-popup-btn">&times;</span>
+                            <h2>Edit Item Drink</h2>
+                            <form id="edit-form">
+                                <input type="hidden" id="edit_item_id">
+                                <label for="edit_name">Text:</label><br>
+                                <textarea id="edit_name" name="name" rows="4" cols="50"></textarea><br>
+                                <div id="edit-image-input-container">
+                                    <!-- Dynamic input fields for image URLs will be added here -->
+                                </div>
+                                <button type="button" onclick="addEditImageInput()">Add More</button>
+                                <br>
+                                <label for="edit_description">Description:</label><br>
+                                <input type="text" id="edit_description" name="description"><br>
+                                <input type="submit" value="Save">
+                                <button type="button" id="close-edit-popup-btn">Close</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <script>
+                        function openPopup(itemId, itemText, itemImageUrls, itemDescription) {
+                            document.getElementById('edit_item_id').value = itemId;
+                            document.getElementById('edit_name').value = itemText;
+                    
+                            var imageUrls = itemImageUrls.split(',');
+                            var container = document.getElementById('edit-image-input-container');
+                            container.innerHTML = '';
+                            imageUrls.forEach(function(url) {
+                                var div = document.createElement('div');
+                                div.classList.add('image-input');
+                                div.innerHTML = '<label>Image URL:</label> <input type="text" name="image_urls[]" value="' + url.trim() + '">';
+                                container.appendChild(div);
+                            });
+                    
+                            document.getElementById('popup').style.display = 'flex';
+                        }
+                    
+                        var editButtons = document.querySelectorAll('.edit');
+                        editButtons.forEach(function(button) {
+                            button.addEventListener('click', function(event) {
+                                event.preventDefault();
+                                var itemId = this.getAttribute('data-item-id');
+                                var itemText = "";
+                                var itemImageUrls = "";
+                                var itemDescription = "";
+                                openPopup(itemId, itemText, itemImageUrls, itemDescription);
+                            });
+                        });
+                    
+                        function addEditImageInput() {
+                            var container = document.getElementById('edit-image-input-container');
+                            var div = document.createElement('div');
+                            div.classList.add('image-input');
+                            div.innerHTML = '<label>Image URL:</label> <input type="text" name="image_urls[]">';
+                            container.appendChild(div);
+                        }
+                    
+                        document.getElementById('close-popup-btn').addEventListener('click', function() {
+                            document.getElementById('popup').style.display = 'none';
+                        });
+                    
+                        document.getElementById('close-edit-popup-btn').addEventListener('click', function() {
+                            document.getElementById('popup').style.display = 'none';
+                        });
+                    
+                        document.getElementById('edit-form').addEventListener('submit', function(event) {
+                            event.preventDefault();
+                            var formData = new FormData(this);
+                            var itemId = document.getElementById('edit_item_id').value;
+                            fetch('/update_activities/' + itemId, {
+                                method: 'POST',
+                                body: formData
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                alert('Item updated successfully!');
+                                document.getElementById('popup').style.display = 'none';
+                            })
+                            .finally(() => {
+                                location.reload();
+                            });
+                        });
+                    </script>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='assets/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/chartsjs/Chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/script.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,246 @@
+<!doctype html>
+<!-- 
+* Bootstrap Simple Admin Template
+* Version: 2.1
+* Author: Alexis Luna
+* Website: https://github.com/alexis-luna/bootstrap-simple-admin-template
+-->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dashboard | Bootstrap Simple Admin Template</title>
+    <link href="{{ url_for('static', filename='assets/vendor/fontawesome/css/fontawesome.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/fontawesome/css/solid.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/fontawesome/css/brands.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/master.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/flagiconcss/css/flag-icon.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <title>Edit Index Page</title>
+    <style>
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        textarea, input[type="text"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+        .edit, .delete {
+            text-decoration: none;
+            color: #007bff;
+            margin-right: 10px;
+        }
+        .edit:hover, .delete:hover {
+            text-decoration: underline;
+        }
+        .edit-icon, .delete-icon {
+            font-size: 18px;
+            vertical-align: middle;
+        }
+        /* CSS cho popup */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        {% include 'sidebar.html' %}
+        <div id="body" class="active">
+            <!-- navbar navigation component -->
+            {% include 'navbar.html' %}
+
+            <div class="content">
+                <div class="container">
+                    <div class="row">
+                        <!-- Form to add new item -->
+                        <div class="col-md-6">
+                            <h2>Add Home Page Main Menu</h2>
+                            <form action="/add_home_page_main_section" method="post">
+                                <div class="mb-3">
+                                    <label for="add_title">Title:</label><br>
+                                    <textarea id="add_title" name="title" class="form-control" rows="4" cols="50"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="add_image_url" class="form-label">Image URL:</label>
+                                    <textarea id="add_image_url" name="image_url" class="form-control" rows="4" cols="50"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="add_link" class="form-label">Link:</label>
+                                    <textarea id="add_link" name="link" class="form-control" rows="4" cols="50"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </form>
+                        </div>
+            
+                        <!-- Display existing items -->
+                        <div class="col-md-6">
+                            <h2>List HomePage Main Menu</h2>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Image</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in sections %}
+                                        <tr>
+                                            <td>{{ item.title }}</td>
+                                            <td><img src="{{ item.image_url }}" alt="{{ item.title }}" class="img-thumbnail"></td>
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <style>
+                                                        .edit,
+                                                        .delete {
+                                                            color: white;
+                                                        }
+                                                    </style>
+                                                    <a href="/update_home_page_main_section/{{ item.id }}" class="edit_grid btn btn-primary" data-grid-item-id="{{ item.id }}"><i class="fas fa-edit"></i> Edit</a>
+                                                    <a href="/delete_home_page_main_section/{{ item.id }}" class="delete btn btn-danger"><i class="fas fa-trash"></i> Delete</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Popup for editing item -->
+                    <div class="popup-overlay" id="popup">
+                        <div class="popup-content">
+                            <span class="close-btn" id="close-popup-btn">&times;</span>
+                            <h2>Edit Home Page Main Menu</h2>
+                            <form id="edit-grid-form">
+                                <input type="hidden" id="edit_item_id">
+                                <label for="edit_title">Title:</label><br>
+                                <textarea id="edit_title" name="title" rows="4" cols="50"></textarea><br>
+                                <label for="edit_image_url">Image URL:</label><br>
+                                <input type="text" id="edit_image_url" name="image_url"><br>
+                                <label for="edit_link">Link:</label><br>
+                                <input type="text" id="edit_link" name="link"><br>
+                                <input type="submit" value="Save">
+                                <button type="button" id="close-edit-popup-btn">Close</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- JavaScript -->
+            <script>
+                // Function to open popup and fill it with item data
+                function openPopup(itemId, itemTitle, itemImageUrl, itemLink) {
+                    document.getElementById('edit_item_id').value = itemId;
+                    document.getElementById('edit_title').value = itemTitle;
+                    document.getElementById('edit_image_url').value = itemImageUrl;
+                    document.getElementById('edit_link').value = itemLink;
+                    document.getElementById('popup').style.display = 'flex';
+                }
+            
+                // Add click event to each 'Edit' button
+                var editButtons1 = document.querySelectorAll('.edit_grid');
+                editButtons1.forEach(function(button) {
+                    button.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        var itemId = this.getAttribute('data-grid-item-id');
+                        var itemTitle = this.parentElement.parentElement.previousElementSibling.firstElementChild.innerText;
+                        var itemImageUrl = ""; // You can get itemImageUrl from another attribute if needed
+                        var itemLink = ""; // You can get itemLink from another attribute if needed
+                        openPopup(itemId, itemTitle, itemImageUrl, itemLink);
+                    });
+                });
+            
+                // Close popup when close button is clicked
+                document.getElementById('close-popup-btn').addEventListener('click', function() {
+                    document.getElementById('popup').style.display = 'none';
+                });
+            
+                // Close popup when close button inside popup is clicked
+                document.getElementById('close-edit-popup-btn').addEventListener('click', function() {
+                    document.getElementById('popup').style.display = 'none';
+                });
+            
+                // JavaScript to send AJAX request to update item
+                document.getElementById('edit-grid-form').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    var formData = new FormData(this);
+                    var itemId = document.getElementById('edit_item_id').value;
+                    fetch('/update_home_page_main_section/' + itemId, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert('Item updated successfully!');
+                        document.getElementById('popup').style.display = 'none';
+                    })
+                    .finally(() => {
+                        location.reload(); // Reload the page after successful update
+                    });
+                });
+            </script>
+            
+    </div>
+    <script src="{{ url_for('static', filename='assets/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/chartsjs/Chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/script.js') }}"></script>
+</body>
+
+</html>

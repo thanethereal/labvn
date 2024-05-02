@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Itim|Lobster|Montserrat:500|Noto+Serif|Nunito|Patrick+Hand|Roboto+Mono:100,100i,300,300i,400,400i,500,500i,700,700i|Roboto+Slab|Saira|Quicksand" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet">
+
+    <title>Life’s a beach VietNam</title>
+    <style>
+        table {
+        border-collapse: collapse;
+        width: 100%;
+        }
+
+        td {
+            border: 1px solid #dddddd;
+            padding: 20px; /* Khoảng cách giữa nội dung và viền */
+            text-align: center;
+            cursor: pointer; /* Con trỏ biến thành pointer khi di chuột qua ô */
+            font-size: xx-large;
+        }
+
+        .image-container {
+            position: relative;
+            width: 150px; /* Kích thước ảnh */
+            height: 150px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%; /* Hình tròn */
+            border: 2px dashed #aaa; /* Viền dash */
+        }
+
+        @media only screen and (min-width: 768px) {
+            .body, html{
+                font-size: xx-large;
+            }
+            .cell {
+                justify-content: space-between;
+                align-items: center;
+            }
+            .image-container {
+                margin-left: 40%; /* Khoảng cách giữa ảnh và văn bản */
+            }
+            .text {
+                flex: 1; /* Văn bản chiếm phần còn lại của ô */
+            }
+
+            .button{
+                font-size: xx-large;
+            }
+            .accommodation-info{
+                font-size: xx-large;
+            }
+        }
+    
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+
+        .button {
+            animation: bounce 2s infinite; /* Áp dụng animation */
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+        </div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="../static/img/69788bec302726d76d0f0c9a244e670e.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="../static/img/445476376.jpg" alt=""></div>
+                <!-- Thêm các slide khác ở đây -->
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <div class="accommodation-info">
+        <div class="info-content">
+            <h1>{{ info.title }}</h1>
+            <p>{{ info.description }}</p>
+        </div>
+    </div>    
+
+
+    <table>
+        {% for i in range(0, rooms|length, 2) %}
+            <tr>
+                <td class="cell">
+                    <div class="image-container">
+                        <a href="{{ rooms[i].image_urls[0] }}" data-fancybox="gallery{{ i + 1 }}">
+                            <img src="{{ rooms[i].image_urls[0] }}" alt="{{ rooms[i].name }}">
+                        </a>
+                        {% for image_url in rooms[i].image_urls[1:] %}
+                            <a href="{{ image_url }}" data-fancybox="gallery{{ i + 1 }}" style="display: none;"></a>
+                        {% endfor %}
+                    </div>
+                    <div class="text" style="font-size: x-large;">{{ rooms[i].name }}</div>
+                    <div class="description" style="font-size: medium;">{{ rooms[i].description }}</div>
+                </td>
+                {% if i + 1 < rooms|length %}
+                <td class="cell">
+                    <div class="image-container">
+                        <a href="{{ rooms[i+1].image_urls[0] }}" data-fancybox="gallery{{ i + 2 }}">
+                            <img src="{{ rooms[i+1].image_urls[0] }}" alt="{{ rooms[i+1].name }}">
+                        </a>
+                        {% for image_url in rooms[i+1].image_urls[1:] %}
+                            <a href="{{ image_url }}" data-fancybox="gallery{{ i + 2 }}" style="display: none;"></a>
+                        {% endfor %}
+                    </div>
+                    <div class="text" style="font-size: x-large;">{{ rooms[i+1].name }}</div>
+                    <div class="description" style="font-size: medium;">{{ rooms[i+1].description }}</div>
+                </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <div class="booking-container">
+        <!-- Booking Button -->
+        <button class="booking-button" onclick="redirectToBookingPage()">Booking Now</button>
+        <!-- End Booking Button -->
+    </div>
+    
+    <!-- End Booking Button -->
+    {% include 'footer.html' %}
+    
+    <script>
+        function redirectToBookingPage() {
+            // Replace the URL with your booking page URL
+            window.location.href = "https://925a4e94691ca736.sirvoy.me/";
+        }
+    </script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            loop: true,
+            autoplay: {
+                delay: 2000, // Thời gian hiển thị của mỗi slide (ms)
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+    </script>
+    <!-- JavaScript để kích hoạt Fancybox -->
+    <script>
+        $(document).ready(function() {
+            $("[data-fancybox]").fancybox({
+                buttons: [
+                    "slideShow",
+                    "fullScreen",
+                    "thumbs",
+                    "close"
+            ],
+            loop: true
+        });
+    });
+</script>
+</body>
+</html>

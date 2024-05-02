@@ -1,0 +1,240 @@
+<!doctype html>
+<!-- 
+* Bootstrap Simple Admin Template
+* Version: 2.1
+* Author: Alexis Luna
+* Website: https://github.com/alexis-luna/bootstrap-simple-admin-template
+-->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dashboard | Bootstrap Simple Admin Template</title>
+    <link href="{{ url_for('static', filename='assets/vendor/fontawesome/css/fontawesome.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/fontawesome/css/solid.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/fontawesome/css/brands.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/master.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/flagiconcss/css/flag-icon.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <title>Edit Index Page</title>
+    <style>
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        textarea, input[type="text"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+        .edit, .delete {
+            text-decoration: none;
+            color: #007bff;
+            margin-right: 10px;
+        }
+        .edit:hover, .delete:hover {
+            text-decoration: underline;
+        }
+        .edit-icon, .delete-icon {
+            font-size: 18px;
+            vertical-align: middle;
+        }
+        /* CSS cho popup */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        {% include 'sidebar.html' %}
+        <div id="body" class="active">
+            <!-- navbar navigation component -->
+            {% include 'navbar.html' %}
+            <!-- end of navbar navigation -->
+            <div class="content">
+                <div class="container">
+                    <!-- Bảng hiển thị các mục đã có trong cơ sở dữ liệu -->
+                    <h2>Team members</h2>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Address</th>
+                                    <th>Link facebook</th>
+                                    <th>Link instagram</th>
+                                    <th>Link tiktok</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in footers %}
+                                <tr>
+                                    <td>{{ item.phone }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <td>{{ item.address }}</td>
+                                    <td>{{ item.link_facebook }}</td>
+                                    <td>{{ item.link_instagram }}</td>
+                                    <td>{{ item.link_tiktok }}</td>
+                                    <td>
+                                        <a href="#" class="edit btn btn-primary" data-item-id="{{ item.id }}"><i class="fas fa-edit"></i> Edit</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                
+                    <div class="popup-overlay" id="popup">
+                        <div class="popup-content">
+                            <span class="close-btn" id="close-popup-btn">&times;</span>
+                            <h2>Edit Footer</h2>
+                            <form id="edit-form">
+                                <input type="hidden" id="edit_item_id">
+                                <div id="phone" class="mb-3">
+                                    <label>Phone:</label>
+                                    <input type="text" id="edit_phone" name="phone" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit_email" class="form-label">Email:</label>
+                                    <input type="text" id="edit_email" name="email" class="form-control">
+                                </div>
+                                <div id="edit_address" class="mb-3">
+                                    <label>Address:</label>
+                                    <input type="text" id="edit_address" name="address" class="form-control">
+                                </div>
+                                <div id="edit_linkfacebook" class="mb-3">
+                                    <label>Link facebook:</label>
+                                    <input type="text" id="edit_linkfacebook" name="linkfacebook" class="form-control">
+                                </div>
+                                <div id="edit_linkinsta" class="mb-3">
+                                    <label>Link instagram:</label>
+                                    <input type="text" id="edit_linkinsta" name="linkinsta" class="form-control">
+                                </div>
+                                <div id="edit_linktiktok" class="mb-3">
+                                    <label>Link tiktok:</label>
+                                    <input type="text" id="edit_linkzalo" name="linktiktok" class="form-control">
+                                </div>
+                                <input type="submit" value="Save" class="btn btn-primary">
+                                <button type="button" id="close-edit-popup-btn" class="btn btn-secondary">Close</button>
+                            </form>
+                        </div>
+                    </div>
+                
+                    <script>
+                        function openPopup(itemId, phone, email, address, linkFacebook, linkInstagram, linkTiktok) {
+                            document.getElementById('edit_item_id').value = itemId;
+                            document.getElementById('edit_phone').value = phone;
+                            document.getElementById('edit_email').value = email;
+                            document.getElementById('edit_address').value = address;
+                            document.getElementById('edit_linkfacebook').value = linkFacebook;
+                            document.getElementById('edit_linkinsta').value = linkInstagram;
+                            document.getElementById('edit_linktiktok').value = linkTiktok;
+                            document.getElementById('popup').style.display = 'flex';
+                        }
+                    
+                        var editButtons = document.querySelectorAll('.edit');
+                        editButtons.forEach(function(button) {
+                            button.addEventListener('click', function(event) {
+                                event.preventDefault();
+                                var itemId = this.getAttribute('data-item-id');
+                                var phone = ""; // You need to get the phone number from the item
+                                var email = ""; // You need to get the email from the item
+                                var address = ""; // You need to get the address from the item
+                                var linkFacebook = ""; // You need to get the Facebook link from the item
+                                var linkInstagram = ""; // You need to get the Instagram link from the item
+                                var linkTiktok = ""; // You need to get the TikTok link from the item
+                                openPopup(itemId, phone, email, address, linkFacebook, linkInstagram, linkTiktok);
+                            });
+                        });
+                    
+                        document.getElementById('close-popup-btn').addEventListener('click', function() {
+                            document.getElementById('popup').style.display = 'none';
+                        });
+                    
+                        document.getElementById('close-edit-popup-btn').addEventListener('click', function() {
+                            document.getElementById('popup').style.display = 'none';
+                        });
+                    
+                        document.getElementById('edit-form').addEventListener('submit', function(event) {
+                            event.preventDefault();
+                            var formData = new FormData(this);
+                            var itemId = document.getElementById('edit_item_id').value;
+                            fetch('/update_footer/' + itemId, {
+                                method: 'POST',
+                                body: formData
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                alert('Footer updated successfully!');
+                                document.getElementById('popup').style.display = 'none';
+                                location.reload();
+                            })
+                            .finally(() => {
+                                location.reload(); // Reload the page after successful update
+                            });
+                        });
+                    </script>                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='assets/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/vendor/chartsjs/Chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/script.js') }}"></script>
+</body>
+
+</html>

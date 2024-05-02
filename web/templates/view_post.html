@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Itim|Lobster|Montserrat:500|Noto+Serif|Nunito|Patrick+Hand|Roboto+Mono:100,100i,300,300i,400,400i,500,500i,700,700i|Roboto+Slab|Saira|Quicksand" rel="stylesheet">
+
+    <title>Life’s a beach VietNam</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3 {
+            color: #333;
+        }
+
+        .post-title {
+            margin-bottom: 10px;
+        }
+
+        .post-content {
+            margin-bottom: 20px;
+        }
+
+        .post-meta {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .post-meta strong {
+            color: #333;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .post-image {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+        </div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="../static/img/527619306.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="../static/img/445476376.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="../static/img/527619253.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="../static/img/445850512.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="../static/img/527619249.jpg" alt=""></div>
+                <!-- Thêm các slide khác ở đây -->
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+
+    
+    <div class="container">
+        <h1 class="post-title">{{ post.title }}</h1>
+        {% if post.image_url %}
+        <img class="post-image" src="{{ post.image_url }}" alt="Post Image">
+        {% endif %}
+        <div class="post-content">
+            <p>{{ post.content }}</p>
+        </div>
+        <div class="post-meta">
+            <p><strong>Posted by:</strong> User {{ post.user_id }}</p>
+            <p><strong>Posted at:</strong> {{ post.created_at }}</p>
+        </div>
+        <a class="back-link" href="{{ url_for('post') }}">Back to Posts</a>
+    </div>
+    
+    
+    
+    <div class="booking-container">
+        <!-- Booking Button -->
+        <button class="booking-button" onclick="redirectToBookingPage()">Booking Now</button>
+        <!-- End Booking Button -->
+    </div>
+    
+    <!-- End Booking Button -->
+    <footer class="footer">
+        <div>
+            <a href="https://www.facebook.com/"><i class="fa fa-facebook"></i> Facebook</a>
+            <a href="https://www.instagram.com/"><i class="fa fa-instagram"></i> Instagram</a>
+            <a href="https://www.youtube.com/"><i class="fa fa-youtube"></i> YouTube</a>
+            <a href="https://www.tiktok.com/"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+        </div>
+        <div>
+            <p><i class="fa fa-phone"></i> Phone: +84 978931085</p>
+            <p><i class="fa fa-envelope"></i> Email: info@lifesabeachvietnam.com</p>
+            <p><i class="fa fa-map-marker"></i> Address: Thôn 2 Bãi Bàng, QL1D, Xuân Hải, Sông Cầu, Phú Yên 560000, Vietnam</p>
+        </div>
+    </footer>
+    
+
+    <script>
+        function redirectToBookingPage() {
+            // Replace the URL with your booking page URL
+            window.location.href = "https://925a4e94691ca736.sirvoy.me/";
+        }
+    </script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            loop: true,
+            autoplay: {
+                delay: 2000, // Thời gian hiển thị của mỗi slide (ms)
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+    </script>
+</body>
+</html>

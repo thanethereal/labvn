@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Itim|Lobster|Montserrat:500|Noto+Serif|Nunito|Patrick+Hand|Roboto+Mono:100,100i,300,300i,400,400i,500,500i,700,700i|Roboto+Slab|Saira|Quicksand" rel="stylesheet">
+
+    <title>Life’s a beach VietNam</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+        </div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                {% for image_url in header_image.image_urls %}
+                    <div class="swiper-slide">
+                        <img src="{{ image_url }}" alt="">
+                    </div>
+                    {% endfor %}
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    
+    {% for item in descriptions %}
+    <section class="description-section">
+        <div class="description-content">
+            {% if loop.index % 2 == 0 %}
+            <!-- Nếu là section chẵn, hiển thị hình ảnh trước và sau đó văn bản -->
+            <div class="description-image">
+                <img src="{{ item.image_url }}" alt="Description Image">
+            </div>
+            <div class="description-text">
+                <p>{{ item.text }}</p>
+            </div>
+            {% else %}
+            <!-- Nếu là section lẻ, hiển thị văn bản trước và sau đó hình ảnh -->
+            <div class="description-text">
+                <p>{{ item.text }}</p>
+            </div>
+            <div class="description-image">
+                <img src="{{ item.image_url }}" alt="Description Image">
+            </div>
+            {% endif %}
+        </div>
+    </section>
+    {% endfor %}
+
+    
+    <section class="section">
+        <div class="grid">
+            {% for item in main_sections %}
+                {% if loop.index % 2 == 0 %}
+                    <div class="grid-item">
+                        <a href="{{ item.link }}">
+                            <div class="content">
+                                <img src="{{ item.image_url }}" alt="{{ item.title }}">
+                                <p>{{ item.title }}</p>
+                            </div>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="grid-item">
+                        <a href="{{ item.link }}">
+                            <div class="content">
+                                <p>{{ item.title }}</p>
+                                <img src="{{ item.image_url }}" alt="{{ item.title }}">
+                            </div>
+                        </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+    
+    <div class="booking-container">
+        <!-- Booking Button -->
+        <button class="booking-button" onclick="redirectToBookingPage()">Booking Now</button>
+        <!-- End Booking Button -->
+    </div>
+    
+    {% include 'footer.html' %}
+    
+    <script>
+        function redirectToBookingPage() {
+            // Replace the URL with your booking page URL
+            window.location.href = "https://925a4e94691ca736.sirvoy.me/";
+        }
+    </script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            loop: true,
+            autoplay: {
+                delay: 2000, // Thời gian hiển thị của mỗi slide (ms)
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+    </script>
+</body>
+</html>

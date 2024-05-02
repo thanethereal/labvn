@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Itim|Lobster|Montserrat:500|Noto+Serif|Nunito|Patrick+Hand|Roboto+Mono:100,100i,300,300i,400,400i,500,500i,700,700i|Roboto+Slab|Saira|Quicksand" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet">
+
+    <title>Life’s a beach VietNam</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+        </div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="../static/img/IMG_0252.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="../static/img/IMG_1859.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="../static/img/416118696_330406086633545_1137937964268989549_n.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="../static/img/414647931_744759267670954_3711658981821274356_n.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="../static/img/414973738_744759517670929_8126938424854890681_n.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="../static/img/437846256_954489699281263_4913513374208092493_n.jpg" alt=""></div>
+                <!-- Thêm các slide khác ở đây -->
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <div>
+        <h2></h2>
+    </div>
+    <div class="restaurant-info">
+        <h2>{{ restaurant_info.restaurant_name }}</h2>
+        <div class="restaurant-hours">
+            <p><strong>Beach bar:</strong> {{ restaurant_info.beach_bar_hours }}</p>
+            <p><strong>Restaurant:</strong> {{ restaurant_info.restaurant_hours }}</p>
+            <p><strong>Happy hour:</strong> {{ restaurant_info.happy_hour_hours }}</p>
+        </div>
+        <div class="restaurant-description">
+            <p>{{ restaurant_info.description }}</p>
+        </div>
+    </div>
+
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+        <h6 class="section-title text-center text-primary text-uppercase"></h6>
+        <h1><span class="text-primary text-uppercase">Menu</span></h1>
+    </div>
+    
+    <div class="activities-container">
+        <div class="activity-category">
+            <div class="activity-category-title">Foods</div>
+            <div class="activity-items">
+                {% for food in foods %}
+                <div class="activity-item">
+                    <img src="{{ food.image_url }}" alt="{{ food.name }}">
+                    <div class="activity-title">{{ food.name }}</div>
+                </div>
+                {% endfor %}
+                <!-- Thêm các activity khác vào đây -->
+            </div>
+        </div>
+        <div class="activity-category">
+            <div class="activity-category-title">Drinks</div>
+            <div class="activity-items">
+                {% for drink in drinks %}
+                <div class="activity-item">
+                    <img src="{{ drink.image_url }}" alt="{{ drink.name }}">
+                    <div class="activity-title">{{ drink.name }}</div>
+                </div>
+                {% endfor %}
+                    <!-- Thêm các activity khác vào đây -->
+                </div>
+            </div>
+        </div>
+        <!-- Thêm các chủ đề khác vào đây -->
+    </div>
+    <div class="container">
+        <h2 class="section-title">Discover Our Restaurant & Beach Bar</h2>
+        <div class="swiper-container_bar">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide_bar">
+                    <img class="restaurant-bar-image" src="../static/img/bar1.jpg" alt="Restaurant Image 1">
+                    <div class="overlay">
+                        <div class="overlay-content">Restaurant & Beach Bar</div>
+                    </div>
+                </div>
+                {% for image in image_collection %}
+                <div class="swiper-slide">
+                    <img class="restaurant-bar-image" src="{{ image.image_url }}" alt="Restaurant Image">
+                    <div class="overlay">
+                        <div class="overlay-content">{{ image.overlay_content }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Add Pagination -->
+            <!-- Nút điều hướng -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+    <div class="modal" id="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modal-image">
+    </div>
+    <div style="padding: 20px;">
+        <h2>OUR MENU THAT ALL YOU CAT EAT IN</h2>
+        <div class="menu">
+            {% for item in menus %}
+            <img class="menu-item" src="{{ item.image_url }}" alt="Menu Item">
+            {% endfor %}
+
+        </div>
+    </div>
+    <div class="booking-container">
+        <!-- Booking Button -->
+        <button class="booking-button" onclick="redirectToBookingPage()">Booking Now</button>
+        <!-- End Booking Button -->
+    </div>
+    
+    <!-- End Booking Button -->
+    {% include 'footer.html' %}
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            loop: true,
+            autoplay: {
+                delay: 2000, // Thời gian hiển thị của mỗi slide (ms)
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+    </script>
+    <script>
+        function redirectToBookingPage() {
+            // Replace the URL with your booking page URL
+            window.location.href = "https://925a4e94691ca736.sirvoy.me/";
+        }
+    </script>
+     <script>
+        var swiper = new Swiper('.swiper-container_bar', {
+            // Cấu hình hiệu ứng chuyển động
+            effect: 'coverflow', // Đổi hiệu ứng lướt slide
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: 'auto',
+            coverflowEffect: {
+                rotate: 50,
+                stretch: 0,
+                depth: 100,
+                modifier: 1,
+                slideShadows: true,
+            },
+            // Cấu hình nút điều hướng
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
+    <script>
+        function togglePopup() {
+            var popupContent = document.querySelector(".popup-content");
+            if (popupContent.style.display === "none") {
+                popupContent.style.display = "block";
+            } else {
+                popupContent.style.display = "none";
+            }
+        }
+
+        var swiper = new Swiper('.swiper-container', {
+            loop: true,
+            autoplay: {
+                delay: 2000, // Thời gian hiển thị của mỗi slide (ms)
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+
+        function togglePopup() {
+            var popupContent = document.querySelector(".popup-content");
+            if (popupContent.style.display === "none") {
+                popupContent.style.display = "block";
+            } else {
+                popupContent.style.display = "none";
+            }
+        }
+
+        function togglePopup() {
+            var popupContent = document.querySelector(".popup-content");
+            if (popupContent.style.display === "none") {
+                popupContent.style.display = "block";
+            } else {
+                popupContent.style.display = "none";
+            }
+        }
+
+        // Lấy modal và ảnh modal
+        var modal = document.getElementById("modal");
+        var modalImg = document.getElementById("modal-image");
+
+        // Lấy tất cả các ảnh trong menu
+        var menuItems = document.getElementsByClassName("menu-item");
+
+        // Lặp qua từng ảnh trong menu và thêm sự kiện click
+        for (var i = 0; i < menuItems.length; i++) {
+            menuItems[i].onclick = function() {
+                modal.style.display = "block"; // Hiển thị modal khi click vào ảnh
+                modalImg.src = this.src; // Hiển thị ảnh lớn tương ứng với ảnh được click
+            }
+        }
+
+        // Đóng modal khi click vào nút đóng
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+    </script>
+</body>
+</html>
