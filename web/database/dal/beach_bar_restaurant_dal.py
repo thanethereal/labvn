@@ -1,7 +1,7 @@
 from database.models.beach_bar_and_restaurant import *
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import sessionmaker
-engine = create_engine('postgresql://lifesabeach:lifesabeach@localhost:5432/lifesabeachvietnam')
+engine = create_engine('postgresql://lifesabeach:lifesabeach@localhost:5432/lifesabeach')
 Session = sessionmaker(bind=engine)
 session = Session()
 

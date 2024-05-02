@@ -4,7 +4,7 @@ from bcrypt import hashpw, gensalt
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import sessionmaker, relationship, contains_eager
 
-engine = create_engine('postgresql://lifesabeach:lifesabeach@localhost:5432/lifesabeachvietnam')
+engine = create_engine('postgresql://lifesabeach:lifesabeach@localhost:5432/lifesabeach')
 Session = sessionmaker(bind=engine)
 session = Session()
 

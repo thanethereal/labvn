@@ -18,5 +18,5 @@ class GettingHere(Base):
     links = Column(ARRAY(String))
     description = Column(String)
 
-engine = create_engine('postgresql://lifesabeach:lifesabeach@localhost:5432/lifesabeachvietnam')
+engine = create_engine('postgresql://lifesabeach:lifesabeach@localhost:5432/lifesabeach')
 Base.metadata.create_all(engine)

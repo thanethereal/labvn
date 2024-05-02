@@ -15,7 +15,7 @@ class TourismBenefitEveryone(Base):
     image_url = Column(String)
 
 # Tạo engine để kết nối đến cơ sở dữ liệu PostgreSQL
-engine = create_engine('postgresql://lifesabeach:lifesabeach@localhost:5432/lifesabeachvietnam')
+engine = create_engine('postgresql://lifesabeach:lifesabeach@localhost:5432/lifesabeach')
 
 # Tạo bảng trong cơ sở dữ liệu
 Base.metadata.create_all(engine)

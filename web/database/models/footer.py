@@ -12,5 +12,5 @@ class FooterInfo(Base):
     link_instagram = Column(String(255))
     link_tiktok = Column(String(255))
 
-engine = create_engine('postgresql://lifesabeach:lifesabeach@localhost:5432/lifesabeachvietnam')
+engine = create_engine('postgresql://lifesabeach:lifesabeach@localhost:5432/lifesabeach')
 Base.metadata.create_all(engine)
