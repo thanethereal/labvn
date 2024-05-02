@@ -25,7 +25,7 @@ services:
     environment:
       POSTGRES_USER: lifesabeach
       POSTGRES_PASSWORD: lifesabeach
-      POSTGRES_DB: lifesabeach
+      POSTGRES_DB: lifesabeachvietnam
     volumes:
       - db_volume:/var/lib/postgresql/data
     networks:
