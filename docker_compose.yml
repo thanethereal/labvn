@@ -1,21 +1,21 @@
 version: '3'
 
 services:
-  # web:
-  #   build: ./app
-  #   restart: always
-  #   ports:
-  #     - "5000:5000"
-  #   volumes:
-  #     - ./app:/app
-  #     - static_volume:/app/static
-  #   environment:
-  #     FLASK_APP: app.py
-  #     FLASK_ENV: development
-  #     POSTGRES_USER: lifesabeach
-  #     POSTGRES_PASSWORD: lifesabeach
-  #     POSTGRES_DB: lifesabeach
-  #     DATABASE_URL: postgresql://lifesabeach:lifesabeach@db/lifesabeach
+  web:
+    build: ./web
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./web:/web
+      - static_volume:/web/static
+    environment:
+      FLASK_APP: app.py
+      FLASK_ENV: development
+      POSTGRES_USER: lifesabeach
+      POSTGRES_PASSWORD: lifesabeach
+      POSTGRES_DB: lifesabeach
+      DATABASE_URL: postgresql://lifesabeach:lifesabeach@db/lifesabeach
 
   db:
     image: postgres
