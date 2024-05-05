@@ -103,7 +103,7 @@
                         <div class="col-md-6">
                             <div class="add-form">
                                 <h2>Add New Post</h2>
-                                <form action="/add_post" method="post">
+                                <form action="/add_post" method="post" enctype="multipart/form-data">
                                     <div class="mb-3">
                                         <label for="add_title" class="form-label">Title:</label>
                                         <textarea id="add_title" name="title" class="form-control" rows="4" cols="50"></textarea>
@@ -113,8 +113,8 @@
                                         <input type="text" id="add_content" name="content" class="form-control">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="add_image_url" class="form-label">Image URL:</label>
-                                        <input type="text" id="add_image_url" name="image_url" class="form-control">
+                                        <label for="add_image_file" class="form-label">Select Image:</label>
+                                        <input type="file" id="add_image_file" name="image_file" class="form-control">
                                     </div>
                                     <button type="submit" class="btn btn-primary">Add</button>
                                 </form>
@@ -140,7 +140,7 @@
                                             <tr>
                                                 <td>{{ item.title }}</td>
                                                 <td>{{ item.content }}</td>
-                                                <td><img src="{{ item.image_url }}" alt="{{ item.title }}" class="img-thumbnail"></td>
+                                                <td><img src="{{ url_for('static', filename='img/' + item.image_url) }}" alt="{{ item.title }}" class="img-thumbnail"></td>
                                                 <td>
                                                     <style>
                                                         .edit,
@@ -164,14 +164,14 @@
                     <div class="popup-content">
                         <span class="close-btn" id="close-popup-btn">&times;</span>
                         <h2>Edit Item Description</h2>
-                        <form id="edit-form">
+                        <form id="edit-form" enctype="multipart/form-data">
                             <input type="hidden" id="edit_item_id">
                             <label for="edit_title">Text:</label><br>
                             <textarea id="edit_title" name="title" rows="4" cols="50"></textarea><br>
                             <label for="edit_content">Text:</label><br>
                             <textarea id="edit_content" name="content" rows="4" cols="50"></textarea><br>
-                            <label for="edit_image_url">Image URL:</label><br>
-                            <input type="text" id="edit_image_url" name="image_url"><br>
+                            <label for="edit_image_upload">Upload Image:</label><br> <!-- Change label for file upload -->
+                            <input type="file" id="edit_image_upload" name="image_upload"><br> <!-- Change input type to file -->
                             <input type="submit" value="Save">
                             <button type="button" id="close-edit-popup-btn">Close</button>
                         </form>
@@ -186,7 +186,6 @@
                         document.getElementById('edit_item_id').value = itemId;
                         document.getElementById('edit_title').value = itemTitle;
                         document.getElementById('edit_content').value = itemContent;
-                        document.getElementById('edit_image_url').value = itemImageUrl;
                         // Show popup
                         document.getElementById('popup').style.display = 'flex';
                     }

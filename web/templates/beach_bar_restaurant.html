@@ -20,13 +20,11 @@
         </div>
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="../static/img/IMG_0252.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/IMG_1859.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/416118696_330406086633545_1137937964268989549_n.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/414647931_744759267670954_3711658981821274356_n.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/414973738_744759517670929_8126938424854890681_n.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/437846256_954489699281263_4913513374208092493_n.jpg" alt=""></div>
-                <!-- Thêm các slide khác ở đây -->
+                {% for image_url in header_image.image_urls %}
+                    <div class="swiper-slide">
+                        <img src="{{ url_for('static', filename='img/' + image_url) }}" alt="">
+                    </div>
+                    {% endfor %}
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -37,11 +35,11 @@
     <div class="restaurant-info">
         <h2>{{ restaurant_info.restaurant_name }}</h2>
         <div class="restaurant-hours">
-            <p><strong>Beach bar:</strong> {{ restaurant_info.beach_bar_hours }}</p>
-            <p><strong>Restaurant:</strong> {{ restaurant_info.restaurant_hours }}</p>
-            <p><strong>Happy hour:</strong> {{ restaurant_info.happy_hour_hours }}</p>
+            <p style="font-size: 1.8rem;"><strong>Beach bar:</strong> {{ restaurant_info.beach_bar_hours }}</p>
+            <p  style="font-size: 1.8rem;"><strong>Restaurant:</strong> {{ restaurant_info.restaurant_hours }}</p>
+            <p  style="font-size: 1.8rem;"><strong>Happy hour:</strong> {{ restaurant_info.happy_hour_hours }}</p>
         </div>
-        <div class="restaurant-description">
+        <div  style="font-size: 1.7rem;" class="restaurant-description">
             <p>{{ restaurant_info.description }}</p>
         </div>
     </div>
@@ -57,7 +55,7 @@
             <div class="activity-items">
                 {% for food in foods %}
                 <div class="activity-item">
-                    <img src="{{ food.image_url }}" alt="{{ food.name }}">
+                    <img src="{{ url_for('static', filename='img/' + food.image_url) }}" alt="{{ food.name }}">
                     <div class="activity-title">{{ food.name }}</div>
                 </div>
                 {% endfor %}
@@ -69,7 +67,7 @@
             <div class="activity-items">
                 {% for drink in drinks %}
                 <div class="activity-item">
-                    <img src="{{ drink.image_url }}" alt="{{ drink.name }}">
+                    <img src="{{ url_for('static', filename='img/' + drink.image_url) }}" alt="{{ drink.name }}">
                     <div class="activity-title">{{ drink.name }}</div>
                 </div>
                 {% endfor %}
@@ -80,18 +78,18 @@
         <!-- Thêm các chủ đề khác vào đây -->
     </div>
     <div class="container">
+        <style>
+            .section-title {
+                color: blue; /* Màu xanh */
+            }
+        </style>
+        
         <h2 class="section-title">Discover Our Restaurant & Beach Bar</h2>
         <div class="swiper-container_bar">
             <div class="swiper-wrapper">
-                <div class="swiper-slide_bar">
-                    <img class="restaurant-bar-image" src="../static/img/bar1.jpg" alt="Restaurant Image 1">
-                    <div class="overlay">
-                        <div class="overlay-content">Restaurant & Beach Bar</div>
-                    </div>
-                </div>
                 {% for image in image_collection %}
                 <div class="swiper-slide">
-                    <img class="restaurant-bar-image" src="{{ image.image_url }}" alt="Restaurant Image">
+                    <img class="restaurant-bar-image" src="{{ url_for('static', filename='img/' + image.image_url) }}" alt="Restaurant Image">
                     <div class="overlay">
                         <div class="overlay-content">{{ image.overlay_content }}</div>
                     </div>
@@ -108,11 +106,11 @@
         <span class="close" onclick="closeModal()">&times;</span>
         <img class="modal-content" id="modal-image">
     </div>
-    <div style="padding: 20px;">
-        <h2>OUR MENU THAT ALL YOU CAT EAT IN</h2>
+    <div style="padding: 20px;  text-align: center;">
+        <h2 class="section-title">OUR MENU THAT ALL YOU CAT EAT IN</h2>
         <div class="menu">
             {% for item in menus %}
-            <img class="menu-item" src="{{ item.image_url }}" alt="Menu Item">
+            <img class="menu-item" src="{{ url_for('static', filename='img/' + item.image_url) }}" alt="Menu Item">
             {% endfor %}
 
         </div>

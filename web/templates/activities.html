@@ -20,18 +20,11 @@
         </div>
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="../static/img/386361140_697822812364600_2782013989691734794_n.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/403870001_728077962564692_8508101989234462671_n.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/423735853_1512327812662776_3488518350661286012_n.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/408445962_732145948932286_7353313802163170074_n.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/IMG_0669.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/IMG_0568.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/IMG_0449.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/IMG_9811.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/IMG_9812.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/IMG_9854.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/IMG_9761.jpg" alt=""></div>
-                <!-- Thêm các slide khác ở đây -->
+                {% for image_url in header_image.image_urls %}
+                    <div class="swiper-slide">
+                        <img src="{{ url_for('static', filename='img/' + image_url) }}" alt="">
+                    </div>
+                    {% endfor %}
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -41,8 +34,8 @@
         <div class="card">
             <div class="card-image-container">
                 {% for image_url in card.image_urls %}
-                <a href="{{ image_url }}" data-fancybox="gallery{{ card.id }}">
-                    <img class="card-image" src="{{ image_url }}" alt="Image {{ loop.index }}">
+                <a href="{{ url_for('static', filename='img/' + image_url) }}" data-fancybox="gallery{{ card.id }}">
+                    <img class="card-image" src="{{ url_for('static', filename='img/' + image_url) }}" alt="Image {{ loop.index }}">
                 </a>
                 {% endfor %}
             </div>

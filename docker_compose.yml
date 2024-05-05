@@ -25,26 +25,26 @@ services:
     environment:
       POSTGRES_USER: lifesabeach
       POSTGRES_PASSWORD: lifesabeach
-      POSTGRES_DB: lifesabeachvietnam
+      POSTGRES_DB: lifesabeach
     volumes:
       - db_volume:/var/lib/postgresql/data
     networks:
       - postgres
 
-  pgadmin:
-    image: dpage/pgadmin4
-    restart: always
-    ports:
-      - "5050:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    depends_on:
-      - db
-    networks:
-      - postgres
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   restart: always
+  #   ports:
+  #     - "5050:80"
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@example.com
+  #     PGADMIN_DEFAULT_PASSWORD: admin
+  #   depends_on:
+  #     - db
+  #   networks:
+  #     - postgres
+  #   volumes:
+  #     - pgadmin-data:/var/lib/pgadmin
 
   # nginx:
   #   image: nginx:latest

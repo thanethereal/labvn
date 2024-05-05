@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Itim|Lobster|Montserrat:500|Noto+Serif|Nunito|Patrick+Hand|Roboto+Mono:100,100i,300,300i,400,400i,500,500i,700,700i|Roboto+Slab|Saira" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Itim|Lobster|Montserrat:500|Noto+Serif|Nunito|Patrick+Hand|Roboto+Mono:100,100i,300,300i,400,400i,500,500i,700,700i|Roboto+Slab|Saira|Quicksand" rel="stylesheet">
     <link href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
@@ -18,18 +18,34 @@
         </div>
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="../static/img/527619306.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/445476376.jpg" alt=""></div>
-                <!-- Thêm các slide khác ở đây -->
+                {% for image_url in header_image.image_urls %}
+                    <div class="swiper-slide">
+                        <img src="{{ url_for('static', filename='img/' + image_url) }}" alt="">
+                    </div>
+                    {% endfor %}
             </div>
             <div class="swiper-pagination"></div>
         </div>
     </div>
     <!-- Phần "Our Story" -->
     <div>
+        <style>
+            .section-header {
+                color: blue; /* Màu xanh */
+                font-size: 3.2em; /* To hơn 1 xíu */
+            }
+            .member .profile {
+                width: 300px; /* Độ rộng mong muốn của mỗi card thành viên */
+            }
+            @media screen and (max-width: 768px) {
+                .section-header {
+                    font-size: 2em; /* Điều chỉnh kích thước font cho các thiết bị có màn hình nhỏ hơn hoặc bằng 768px */
+                }
+            }
+        </style>
         <div class="row justify-content-center">
             <div class="text-center">
-                <h1 class="section-header">Our Story</h1>
+                <h1 class="section-header">OUR STORY</h1>
             </div>
         </div>
     </div>
@@ -40,7 +56,7 @@
             {% if loop.index % 2 == 0 %}
             <!-- Nếu là section chẵn, hiển thị hình ảnh trước và sau đó văn bản -->
             <div class="description-image">
-                <img src="{{ item.image_url }}" alt="Description Image">
+                <img src="{{ url_for('static', filename='img/' + item.image_url) }}" alt="Description Image">
             </div>
             <div class="description-text">
                 <p>{{ item.text }}</p>
@@ -51,7 +67,7 @@
                 <p>{{ item.text }}</p>
             </div>
             <div class="description-image">
-                <img src="{{ item.image_url }}" alt="Description Image">
+                <img src="{{ url_for('static', filename='img/' + item.image_url) }}" alt="Description Image">
             </div>
             {% endif %}
         </div>
@@ -62,7 +78,7 @@
     <div>
         <div class="row justify-content-center">
             <div class="text-center">
-                <h1 class="section-header">Tourism Benefit Everyone</h1>
+                <h1 class="section-header">TOURISM BENEFIT EVERYONE</h1>
             </div>
         </div>
     </div>
@@ -72,7 +88,7 @@
             {% if loop.index % 2 == 0 %}
             <!-- Nếu là section chẵn, hiển thị hình ảnh trước và sau đó văn bản -->
             <div class="description-image">
-                <img src="{{ item.image_url }}" alt="Description Image">
+                <img src="{{ url_for('static', filename='img/' + item.image_url) }}" alt="Description Image">
             </div>
             <div class="description-text">
                 <p>{{ item.text }}</p>
@@ -83,7 +99,7 @@
                 <p>{{ item.text }}</p>
             </div>
             <div class="description-image">
-                <img src="{{ item.image_url }}" alt="Description Image">
+                <img src="{{ url_for('static', filename='img/' + item.image_url) }}" alt="Description Image">
             </div>
             {% endif %}
         </div>
@@ -92,15 +108,20 @@
     <!-- Phần thông tin nhân viên -->
     <section class="team">
         <div>
-            <h2>Our Team</h2>
+            <div class="row justify-content-center">
+                <div class="text-center">
+                    <h1 class="section-header">OUR TEAM</h1>
+                </div>
+            </div>
             <div class="member">
                 {% for member in profiles %}
                 <div class="profile">
                     <a href="{{ url_for('member_profile', id=member.id) }}">
-                        <img src="{{ member.avatar }}" alt="{{ member.name }}">
+                        <img src="{{ url_for('static', filename='img/' + member.avatar) }}" alt="{{ member.name }}">
                         <h3>{{ member.name }}</h3>
                     </a>
-                    <p>{{ member.role }}</p>
+                    <p style="font-size: 2rem;">{{ member.role }}</p>
+                    <p style="font-size: 1.5rem;">{{ member.bio | truncate(50) }}...<a style="font-size: 1.5rem;">Read more</a></p></p>
                     <div class="social-icons">
                         <a href="{{ member.facebook }}"><i class="fa fa-facebook"></i></a>
                         <a href="{{ member.instagram }}"><i class="fa fa-instagram"></i></a>

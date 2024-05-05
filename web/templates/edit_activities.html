@@ -100,7 +100,7 @@
                 <div class="container">
                     <!-- Form để thêm dữ liệu mới -->
                     <h2 class="card-title">Add New Activity</h2>
-                    <form action="/add_activities" method="post">
+                    <form action="/add_activities" method="post" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="name" class="form-label">Activity Name:</label>
                             <input type="text" id="name" name="name" class="form-control" placeholder="Enter activity name" required>
@@ -110,9 +110,9 @@
                             <textarea id="description" name="description" class="form-control" rows="4" placeholder="Enter description"></textarea>
                         </div>
                         <div class="mb-3" id="image-input-container">
-                            <label class="form-label">Image URLs:</label>
+                            <label class="form-label">Image Files:</label>
                             <div class="image-input">
-                                <input type="text" name="image_urls[]" class="form-control" placeholder="Enter image URL">
+                                <input type="file" name="image_files[]" class="form-control" accept="image/*">
                             </div>
                         </div>
                         <button type="button" class="btn btn-secondary mb-3" onclick="addImageInput()">Add More Image</button>
@@ -125,11 +125,12 @@
                             var container = document.getElementById('image-input-container');
                             var div = document.createElement('div');
                             div.classList.add('image-input');
-                            div.innerHTML = '<label>Image URL:</label> <input type="text" name="image_urls[]">';
+                            div.innerHTML = '<label>Image File:</label> <input type="file" name="image_files[]" class="form-control" accept="image/*">';
                             container.appendChild(div);
                         }
                     </script>
-                    </form>
+                    
+                    
         
                     <!-- Bảng hiển thị các mục đã có trong cơ sở dữ liệu -->
                     <h2>List Activities</h2>
@@ -163,7 +164,7 @@
                                     <td>
                                         <div class="thumbnail-wrapper">
                                             {% for image_url in item.image_urls %}
-                                            <img src="{{ image_url }}" alt="{{ image_url }}" class="thumbnail">
+                                            <img src="{{ url_for('static', filename='img/' +image_url) }}" alt="{{ image_url }}" class="thumbnail">
                                             {% endfor %}
                                         </div>
                                     </td>
@@ -182,12 +183,12 @@
                         <div class="popup-content">
                             <span class="close-btn" id="close-popup-btn">&times;</span>
                             <h2>Edit Item Drink</h2>
-                            <form id="edit-form">
+                            <form id="edit-form" enctype="multipart/form-data">
                                 <input type="hidden" id="edit_item_id">
                                 <label for="edit_name">Text:</label><br>
                                 <textarea id="edit_name" name="name" rows="4" cols="50"></textarea><br>
                                 <div id="edit-image-input-container">
-                                    <!-- Dynamic input fields for image URLs will be added here -->
+                                    <!-- Dynamic input fields for image files will be added here -->
                                 </div>
                                 <button type="button" onclick="addEditImageInput()">Add More</button>
                                 <br>
@@ -200,19 +201,10 @@
                     </div>
                     
                     <script>
-                        function openPopup(itemId, itemText, itemImageUrls, itemDescription) {
+                        function openPopup(itemId, itemText, itemDescription) {
                             document.getElementById('edit_item_id').value = itemId;
                             document.getElementById('edit_name').value = itemText;
-                    
-                            var imageUrls = itemImageUrls.split(',');
-                            var container = document.getElementById('edit-image-input-container');
-                            container.innerHTML = '';
-                            imageUrls.forEach(function(url) {
-                                var div = document.createElement('div');
-                                div.classList.add('image-input');
-                                div.innerHTML = '<label>Image URL:</label> <input type="text" name="image_urls[]" value="' + url.trim() + '">';
-                                container.appendChild(div);
-                            });
+                            document.getElementById('edit_description').value = itemDescription;
                     
                             document.getElementById('popup').style.display = 'flex';
                         }
@@ -223,9 +215,8 @@
                                 event.preventDefault();
                                 var itemId = this.getAttribute('data-item-id');
                                 var itemText = "";
-                                var itemImageUrls = "";
                                 var itemDescription = "";
-                                openPopup(itemId, itemText, itemImageUrls, itemDescription);
+                                openPopup(itemId, itemText, itemDescription);
                             });
                         });
                     
@@ -233,7 +224,7 @@
                             var container = document.getElementById('edit-image-input-container');
                             var div = document.createElement('div');
                             div.classList.add('image-input');
-                            div.innerHTML = '<label>Image URL:</label> <input type="text" name="image_urls[]">';
+                            div.innerHTML = '<label>Image File:</label> <input type="file" name="image_files[]">';
                             container.appendChild(div);
                         }
                     
@@ -268,7 +259,6 @@
                             });
                         });
                     </script>
-                    
                 </div>
             </div>
         </div>

@@ -3,11 +3,22 @@ from __main__ import app
 from database.services.getting_here_service import GettingHereService
 from database.services.header_image_service import HeaderImageService
 from database.services.footer_service import FooterService
+
+from werkzeug.utils import secure_filename
+import os
+UPLOAD_FOLDER = '/static/img'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @app.route('/gettinghere')
 def gettinghere():
     info = GettingHereService.get_getting_here_info_by_id(1)
     getting_heres = GettingHereService.get_all_getting_heres()
-    header_image = HeaderImageService.get_header_image_by_name("Home Page")
+    header_image = HeaderImageService.get_header_image_by_name("Getting here")
     footer = FooterService.get_footer_by_id(1)
     return render_template('gettinghere.html', info=info, getting_heres=getting_heres, header_image=header_image, footer=footer)
 
@@ -33,16 +44,23 @@ def update_getting_here_info(item_id):
 
 @app.route('/edit_getting_here', methods=['GET'])
 def edit_getting_here():
-    gettingheres = GettingHereService.get_all_getting_heres()
-    return render_template('edit_getting_here.html', gettingheres=gettingheres)
+    getting_heres = GettingHereService.get_all_getting_heres()
+    return render_template('edit_getting_here.html', getting_heres=getting_heres)
 
-# Route để thêm mục mới
 @app.route('/add_getting_here', methods=['POST'])
 def add_getting_here():
     name = request.form['name']
     description = request.form['description']
-    image_urls = request.form.getlist('image_urls[]')  # Nhận danh sách các URL hình ảnh từ form
     links = request.form.getlist('links[]')
+    image_files = request.files.getlist('image_files[]')  # Nhận danh sách các file hình ảnh từ form
+    # Tạo danh sách các tên file đã được upload
+    image_urls = []
+    for image_file in image_files:
+        if image_file.filename != '':
+            filename = secure_filename(image_file.filename)
+            image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            image_urls.append(filename)
+
     GettingHereService.add_getting_here(name=name, image_urls=image_urls, links=links, description=description)
 
     return redirect(url_for('edit_getting_here'))
@@ -59,8 +77,16 @@ def update_getting_here(item_id):
     if request.method == 'POST':
         name = request.form['name']
         description = request.form['description']
-        image_urls = request.form.getlist('image_urls[]')
         links = request.form.getlist('links[]')
+        image_files = request.files.getlist('image_files[]')  # Nhận danh sách các file hình ảnh từ form
+
+        # Tạo danh sách các tên file đã được upload
+        image_urls = []
+        for image_file in image_files:
+            if image_file.filename != '':
+                filename = secure_filename(image_file.filename)
+                image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                image_urls.append(filename)
         GettingHereService.update_getting_here(item_id=item_id, name=name, description=description, image_urls=image_urls, links=links)
         return redirect(url_for('edit_getting_here'))
     return render_template('edit_getting_here.html')

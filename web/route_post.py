@@ -3,6 +3,19 @@ from __main__ import app
 from database.services.post_service import PostService
 from database.services.footer_service import FooterService
 from database.services.header_image_service import HeaderImageService
+
+from werkzeug.utils import secure_filename
+import os
+
+UPLOAD_FOLDER = '/static/img'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 @app.context_processor
 def utility_processor():
     return dict(len=len)
@@ -10,7 +23,7 @@ def utility_processor():
 @app.route('/post')
 def post():
     posts = PostService.get_all_posts()
-    header_image = HeaderImageService.get_header_image_by_name("Home Page")
+    header_image = HeaderImageService.get_header_image_by_name("Post")
     footer = FooterService.get_footer_by_id(1)
     if not posts:
         # Generate fake data if posts are empty
@@ -38,8 +51,12 @@ def edit_post():
 def add_post():
     title = request.form['title']
     content = request.form['content']
-    image_url = request.form['image_url']
     user_id = 1
+    image_file = request.files['image_file']
+    if image_file and allowed_file(image_file.filename):
+        filename = secure_filename(image_file.filename)
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        image_url = filename
     PostService.create_post(title=title, content=content, image_url=image_url, user_id=user_id)
     return redirect(url_for('edit_post'))
 
@@ -48,7 +65,15 @@ def update_post(item_id):
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['content']
-        image_url = request.form['image_url']
+        if 'image_upload' in request.files:
+            image_file = request.files['image_upload']
+            if image_file and allowed_file(image_file.filename):
+                filename = secure_filename(image_file.filename)
+                image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                image_url = filename
+        else:
+            # If no image file is provided, keep the existing image URL
+            image_url = request.form['image_upload']
         PostService.update_post(item_id, title, content, image_url, user_id=1)
         return redirect(url_for('edit_post'))
     return render_template('edit_post.html')

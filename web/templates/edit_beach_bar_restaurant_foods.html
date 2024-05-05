@@ -103,14 +103,14 @@
                             <!-- Form để thêm dữ liệu mới -->
                             <div class="add-food-form">
                                 <h2>Add New Food</h2>
-                                <form action="/add_foods" method="post">
+                                <form action="/add_foods" method="post" enctype="multipart/form-data">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Name of food:</label>
                                         <textarea id="add_name" name="name" class="form-control" rows="4" cols="50"></textarea>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="image_url" class="form-label">Image URL:</label>
-                                        <input type="text" id="add_image_url" name="image_url" class="form-control">
+                                        <label for="add_image_file" class="form-label">Select Image:</label>
+                                        <input type="file" id="add_image_file" name="image_file" class="form-control">
                                     </div>
                                     <button type="submit" class="btn btn-primary">Add</button>
                                 </form>
@@ -133,7 +133,7 @@
                                             {% for item in foods %}
                                             <tr>
                                                 <td>{{ item.name }}</td>
-                                                <td><img src="{{ item.image_url }}" alt="{{ item.image_path }}" class="img-thumbnail"></td>
+                                                <td><img src="{{ url_for('static', filename='img/' + item.image_url) }}" alt="{{ item.image_path }}" class="img-thumbnail"></td>
                                                 <td>
                                                     <div class="action-buttons">
                                                         <style>
@@ -161,45 +161,43 @@
                     <div class="popup-content">
                         <span class="close-btn" id="close-popup-btn">&times;</span>
                         <h2>Edit Item Food</h2>
-                        <form id="edit-form">
+                        <form id="edit-form" enctype="multipart/form-data">
                             <input type="hidden" id="edit_item_id">
                             <label for="edit_name">Text:</label><br>
                             <textarea id="edit_name" name="name" rows="4" cols="50"></textarea><br>
-                            <label for="edit_image_url">Image URL:</label><br>
-                            <input type="text" id="edit_image_url" name="image_url"><br>
+                            <label for="edit_image_file">Image File:</label><br>
+                            <input type="file" id="edit_image_file" name="image_file"><br>
                             <input type="submit" value="Save">
                             <button type="button" id="close-edit-popup-btn">Close</button>
                         </form>
                     </div>
                 </div>
-                
-                <!-- JavaScript -->
+            
                 <script>
                     // Function to open popup and fill it with item data
-                    function openPopup(itemId, itemName, itemImageUrl) {
+                    function openPopup(itemId, itemName) {
                         // Fill popup fields with item data
                         document.getElementById('edit_item_id').value = itemId;
                         document.getElementById('edit_name').value = itemName;
-                        document.getElementById('edit_image_url').value = itemImageUrl;
                         // Show popup
                         document.getElementById('popup').style.display = 'flex';
                     }
-                
+            
                     // Close popup when close button is clicked
                     document.getElementById('close-popup-btn').addEventListener('click', function() {
                         document.getElementById('popup').style.display = 'none';
                     });
-                
+            
                     // Close popup when close button inside popup is clicked
                     document.getElementById('close-edit-popup-btn').addEventListener('click', function() {
                         document.getElementById('popup').style.display = 'none';
                     });
-                
-                    // JavaScript để gửi yêu cầu AJAX
+            
+                    // JavaScript to send AJAX request
                     document.getElementById('edit-form').addEventListener('submit', function(event) {
                         event.preventDefault();
                         var formData = new FormData(this);
-                        var itemId = document.getElementById('edit_item_id').value; // Lấy itemId từ trường ẩn
+                        var itemId = document.getElementById('edit_item_id').value; // Get itemId from hidden field
                         fetch('/update_foods/' + itemId, {
                             method: 'POST',
                             body: formData
@@ -212,14 +210,13 @@
                         })
                         .then(data => {
                             alert('Item updated successfully!');
-                            // Đóng popup sau khi cập nhật thành công
+                            // Close popup after successful update
                             document.getElementById('popup').style.display = 'none';
-                            // Cập nhật giao diện nếu cần
+                            // Update interface if needed
                         })
                         .finally(() => {
                             location.reload(); // Reload the page after successful update
                         });
-                        
                     });
                 </script>
                 

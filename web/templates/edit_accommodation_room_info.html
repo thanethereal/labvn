@@ -101,7 +101,7 @@
                     <!-- Form để thêm dữ liệu mới -->
                     <div class="container">
                         <h2>Add New Room Type</h2>
-                        <form action="/add_accommodation_room_info" method="post">
+                        <form action="/add_accommodation_room_info" method="post" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Text:</label>
                                 <textarea id="name" name="name" class="form-control" rows="4" cols="50"></textarea>
@@ -111,26 +111,26 @@
                                 <input type="text" id="description" name="description" class="form-control">
                             </div>
                             <div class="mb-3" id="image-input-container">
-                                <label for="image_urls" class="form-label">Image URLs:</label>
+                                <label for="image_files" class="form-label">Image Files:</label>
                                 <div class="image-input">
-                                    <input type="text" name="image_urls[]" class="form-control mb-2">
+                                    <input type="file" name="image_files[]" class="form-control mb-2" accept="image/*">
                                 </div>
                             </div>
                             <button type="button" onclick="addImageInput()" class="btn btn-primary mb-3">Add More</button>
                             <br>
                             <input type="submit" value="Submit" class="btn btn-success">
                         </form>
-                    </div>
-                    
-                    <script>
-                        function addImageInput() {
-                            var container = document.getElementById('image-input-container');
-                            var div = document.createElement('div');
-                            div.classList.add('image-input');
-                            div.innerHTML = '<label>Image URL:</label> <input type="text" name="image_urls[]">';
-                            container.appendChild(div);
-                        }
-                    </script>
+                        
+                        <script>
+                            function addImageInput() {
+                                var container = document.getElementById('image-input-container');
+                                var div = document.createElement('div');
+                                div.classList.add('image-input');
+                                div.innerHTML = '<label>Image File:</label> <input type="file" name="image_files[]" class="form-control mb-2" accept="image/*">';
+                                container.appendChild(div);
+                            }
+                        </script>
+                        
                     </form>
         
                     <!-- Bảng hiển thị các mục đã có trong cơ sở dữ liệu -->
@@ -159,7 +159,7 @@
                                     <td>
                                         <div class="d-flex flex-wrap">
                                             {% for image_url in item.image_urls %}
-                                                <img src="{{ image_url }}" alt="{{ image_url }}" class="thumbnail-img mx-2 my-2">
+                                                <img src="{{ url_for('static', filename='img/' + image_url) }}" alt="{{ image_url }}" class="thumbnail-img mx-2 my-2">
                                             {% endfor %}
                                         </div>
                                     </td>
@@ -179,13 +179,13 @@
                     <div class="popup-overlay" id="popup">
                         <div class="popup-content">
                             <span class="close-btn" id="close-popup-btn">&times;</span>
-                            <h2>Edit Item Drink</h2>
-                            <form id="edit-form">
+                            <h2>Edit Room</h2>
+                            <form id="edit-form" enctype="multipart/form-data">
                                 <input type="hidden" id="edit_item_id">
                                 <label for="edit_name">Text:</label><br>
                                 <textarea id="edit_name" name="name" rows="4" cols="50"></textarea><br>
                                 <div id="edit-image-input-container">
-                                    <!-- Dynamic input fields for image URLs will be added here -->
+                                    <!-- Dynamic input fields for image files will be added here -->
                                 </div>
                                 <button type="button" onclick="addEditImageInput()">Add More</button>
                                 <br>
@@ -208,7 +208,7 @@
                             imageUrls.forEach(function(url) {
                                 var div = document.createElement('div');
                                 div.classList.add('image-input');
-                                div.innerHTML = '<label>Image URL:</label> <input type="text" name="image_urls[]" value="' + url.trim() + '">';
+                                div.innerHTML = '<label>Image File:</label> <input type="file" name="image_files[]" accept="image/*">';
                                 container.appendChild(div);
                             });
                     
@@ -231,7 +231,7 @@
                             var container = document.getElementById('edit-image-input-container');
                             var div = document.createElement('div');
                             div.classList.add('image-input');
-                            div.innerHTML = '<label>Image URL:</label> <input type="text" name="image_urls[]">';
+                            div.innerHTML = '<label>Image File:</label> <input type="file" name="image_files[]" accept="image/*">';
                             container.appendChild(div);
                         }
                     
@@ -266,6 +266,7 @@
                             });
                         });
                     </script>
+                    
                     
                 </div>
             </div>

@@ -86,6 +86,11 @@
             right: 10px;
             cursor: pointer;
         }
+        .content-wrapper {
+            height: 100vh; /* Adjust the height as needed */
+            overflow: auto;
+        }
+
     </style>
 </head>
 
@@ -96,20 +101,20 @@
             <!-- navbar navigation component -->
             {% include 'navbar.html' %}
 
-            <div class="content">
+            <div class="content-wrapper content">
                 <div class="container">
                     <div class="row">
                         <!-- Form to add new item -->
                         <div class="col-md-6">
                             <h2>Add Home Page Main Menu</h2>
-                            <form action="/add_home_page_main_section" method="post">
+                            <form action="/add_home_page_main_section" method="post" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="add_title">Title:</label><br>
                                     <textarea id="add_title" name="title" class="form-control" rows="4" cols="50"></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="add_image_url" class="form-label">Image URL:</label>
-                                    <textarea id="add_image_url" name="image_url" class="form-control" rows="4" cols="50"></textarea>
+                                    <label for="add_image_file" class="form-label">Select Image:</label>
+                                    <input type="file" id="add_image_file" name="image_file" class="form-control">
                                 </div>
                                 <div class="mb-3">
                                     <label for="add_link" class="form-label">Link:</label>
@@ -135,7 +140,8 @@
                                         {% for item in sections %}
                                         <tr>
                                             <td>{{ item.title }}</td>
-                                            <td><img src="{{ item.image_url }}" alt="{{ item.title }}" class="img-thumbnail"></td>
+                                            <td><img src="{{ url_for('static', filename='img/' + item.image_url) }}" alt="{{ item.title }}" class="img-thumbnail" style="width: 100px;"></td>
+
                                             <td>
                                                 <div class="action-buttons">
                                                     <style>
@@ -165,8 +171,10 @@
                                 <input type="hidden" id="edit_item_id">
                                 <label for="edit_title">Title:</label><br>
                                 <textarea id="edit_title" name="title" rows="4" cols="50"></textarea><br>
-                                <label for="edit_image_url">Image URL:</label><br>
-                                <input type="text" id="edit_image_url" name="image_url"><br>
+                                <label for="edit_image_input">Select Image:</label>
+                                <input type="file" id="edit_image_input" name="image_url" style="display:none;">
+                                <button type="button" id="select_image_button" class="btn btn-secondary">Choose Image</button>
+                                <input type="hidden" id="edit_image_url" name="image_url" class="form-control"><br>
                                 <label for="edit_link">Link:</label><br>
                                 <input type="text" id="edit_link" name="link"><br>
                                 <input type="submit" value="Save">
@@ -195,7 +203,7 @@
                         event.preventDefault();
                         var itemId = this.getAttribute('data-grid-item-id');
                         var itemTitle = this.parentElement.parentElement.previousElementSibling.firstElementChild.innerText;
-                        var itemImageUrl = ""; // You can get itemImageUrl from another attribute if needed
+                        var itemImageUrl = this.parentElement.parentElement.previousElementSibling.lastElementChild.src;
                         var itemLink = ""; // You can get itemLink from another attribute if needed
                         openPopup(itemId, itemTitle, itemImageUrl, itemLink);
                     });
@@ -205,10 +213,23 @@
                 document.getElementById('close-popup-btn').addEventListener('click', function() {
                     document.getElementById('popup').style.display = 'none';
                 });
-            
+                
                 // Close popup when close button inside popup is clicked
                 document.getElementById('close-edit-popup-btn').addEventListener('click', function() {
                     document.getElementById('popup').style.display = 'none';
+                });
+
+                 // Trigger file input when 'Choose Image' button is clicked
+                 document.getElementById('select_image_button').addEventListener('click', function() {
+                    document.getElementById('edit_image_input').click();
+                });
+            
+                
+                 // Update hidden input value and image preview when file is selected
+                 document.getElementById('edit_image_input').addEventListener('change', function() {
+                    var file = this.files[0];
+                    var imageUrl = URL.createObjectURL(file);
+                    document.getElementById('edit_image_url').value = imageUrl;
                 });
             
                 // JavaScript to send AJAX request to update item

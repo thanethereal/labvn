@@ -4,12 +4,25 @@ from database.services.our_story_service import OurStoryService, TourismBenefitE
 from database.services.user_service import UserProfileService
 from database.services.header_image_service import HeaderImageService
 from database.services.footer_service import FooterService
+
+from werkzeug.utils import secure_filename
+import os
+
+UPLOAD_FOLDER = '/static/img'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 @app.route('/aboutus')
 def aboutus():
     our_story = OurStoryService.get_all_our_stories()
     tourism_benefit_everyones = TourismBenefitEveryoneService.get_all_tourism_benefit_everyones()
     profiles = UserProfileService.get_all_profiles()
-    header_image = HeaderImageService.get_header_image_by_name("Home Page")
+    header_image = HeaderImageService.get_header_image_by_name("About us")
     footer = FooterService.get_footer_by_id(1)
     return render_template('aboutus.html',our_story=our_story, tourism_benefit_everyones=tourism_benefit_everyones, profiles=profiles, header_image=header_image, footer=footer)
 
@@ -22,7 +35,11 @@ def edit_our_story():
 @app.route('/add_our_story', methods=['POST'])
 def add_our_story():
     text = request.form['text']
-    image_url = request.form['image_url']
+    image_file = request.files['image_file']
+    if image_file and allowed_file(image_file.filename):
+        filename = secure_filename(image_file.filename)
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        image_url = filename
     OurStoryService.add_our_story(text=text, image_url=image_url)
     return redirect(url_for('edit_our_story'))
 
@@ -30,7 +47,15 @@ def add_our_story():
 def update_our_story(item_id):
     if request.method == 'POST':
         text = request.form['text']
-        image_url = request.form['image_url']
+        if 'image_upload' in request.files:
+            image_file = request.files['image_upload']
+            if image_file and allowed_file(image_file.filename):
+                filename = secure_filename(image_file.filename)
+                image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                image_url = filename
+        else:
+            # If no image file is provided, keep the existing image URL
+            image_url = request.form['image_upload']
         OurStoryService.update_our_story(item_id, text, image_url)
         return redirect(url_for('edit_our_story'))
     return render_template('edit_our_story.html')
@@ -48,7 +73,11 @@ def edit_tourism_benefit_everyone():
 @app.route('/add_tourism_benefit_everyone', methods=['POST'])
 def add_edit_tourism_benefit_everyone():
     text = request.form['text']
-    image_url = request.form['image_url']
+    image_file = request.files['image_file']
+    if image_file and allowed_file(image_file.filename):
+        filename = secure_filename(image_file.filename)
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        image_url = filename
     TourismBenefitEveryoneService.add_tourism_benefit_everyone(text=text, image_url=image_url)
     return redirect(url_for('edit_tourism_benefit_everyone'))
 
@@ -56,7 +85,15 @@ def add_edit_tourism_benefit_everyone():
 def update_tourism_benefit_everyone(item_id):
     if request.method == 'POST':
         text = request.form['text']
-        image_url = request.form['image_url']
+        if 'image_upload' in request.files:
+            image_file = request.files['image_upload']
+            if image_file and allowed_file(image_file.filename):
+                filename = secure_filename(image_file.filename)
+                image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                image_url = filename
+        else:
+            # If no image file is provided, keep the existing image URL
+            image_url = request.form['image_upload']
         TourismBenefitEveryoneService.update_tourism_benefit_everyone(item_id, text, image_url)
         return redirect(url_for('edit_tourism_benefit_everyone'))
     return render_template('edit_tourism_benefit_everyone.html')

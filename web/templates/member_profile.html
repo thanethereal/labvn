@@ -1,5 +1,3 @@
-<!-- member_profile.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,13 +13,18 @@
     <style>
         .rounded-image {
             border-radius: 50%;
+            width: 150px;
+            height: 150px;
         }
         .custom-header {
-        background-color: #007bff; /* Change this to your desired shade of blue */
+            background-color: #007bff; /* Change this to your desired shade of blue */
+        }
+        .bio {
+            margin-top: 20px;
         }
     </style>
 </head>
-<body>
+<body class="container">
     <header class="custom-header text-white py-4">
         <div class="container">
             <h1>Member Profile</h1>
@@ -33,14 +36,18 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <img src="{{ member.avatar }}" alt="{{ member.name }}" class="img-fluid rounded-circle mb-3 rounded-image">
+                            <img src="{{ url_for('static', filename='img/' + member.avatar) }}" alt="{{ member.name }}" class="img-fluid rounded-circle mb-3 rounded-image">
                         </div>
                         <div class="col-md-8">
                             <h2>{{ member.name }}</h2>
-                            <p class="text-muted">{{ member.role }}</p>
-                            <p><i class="fas fa-envelope"></i> {{ member.email }}</p>
+                            <p style="font-size: 2rem;" class="text-muted">{{ member.role }}</p>
+                            <div class="bio">
+                                <h3>Bio</h3>
+                                <p style="font-size: 1.5rem;">{{ member.bio }}</p>
+                            </div>
                             <p><i class="fas fa-phone"></i> {{ member.phone }}</p>
-                            <!-- Add more profile details as needed -->
+                            <p><i class="fab fa-facebook"></i> {{ member.facebook }}</p>
+                            <p><i class="fab fa-instagram"></i> {{ member.instagram }}</p>
                         </div>
                     </div>
                 </div>

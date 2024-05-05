@@ -12,6 +12,10 @@ class UserService:
         return UserDAL.get_user_by_email(email)
     
     @staticmethod
+    def get_user_by_id(user_id):
+        return UserDAL.get_user_by_email(user_id)
+    
+    @staticmethod
     def get_all_users():
         return UserDAL.get_all_users()
 

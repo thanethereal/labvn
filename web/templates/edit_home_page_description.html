@@ -103,14 +103,14 @@
                         <div class="col-lg-6">
                             <div class="add-description">
                                 <h2>Add New Description</h2>
-                                <form action="/add_home_page_description" method="post">
+                                <form action="/add_home_page_description" method="post" enctype="multipart/form-data">
                                     <div class="mb-3">
                                         <label for="add_text" class="form-label">Text:</label>
                                         <textarea id="add_text" name="text" class="form-control" rows="4" cols="50"></textarea>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="add_image_url" class="form-label">Image URL:</label>
-                                        <input type="text" id="add_image_url" name="image_url" class="form-control">
+                                        <label for="add_image_file" class="form-label">Select Image:</label>
+                                        <input type="file" id="add_image_file" name="image_file" class="form-control">
                                     </div>
                                     <button type="submit" class="btn btn-primary">Add</button>
                                 </form>
@@ -132,7 +132,7 @@
                                             {% for item in descriptions %}
                                             <tr>
                                                 <td>{{ item.text }}</td>
-                                                <td><img src="{{ item.image_url }}" alt="{{ item.title }}" class="img-thumbnail"></td>
+                                                <td><img src="{{ url_for('static', filename='img/' + item.image_url) }}" alt="{{ item.title }}" class="img-thumbnail"></td>
                                                 <td>
                                                     <div class="btn-group" role="group">
                                                         <style>
@@ -160,15 +160,17 @@
                 <div class="popup-content">
                     <span class="close-btn" id="close-popup-btn">&times;</span>
                     <h2>Edit Item Description</h2>
-                    <form id="edit-form">
+                    <form id="edit-form" enctype="multipart/form-data">
                         <input type="hidden" id="edit_item_id">
                         <div class="mb-3">
                             <label for="edit_text">Text:</label>
                             <input type="text" id="edit_text" name="text" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="edit_image_url">Image URL:</label>
-                            <input type="text" id="edit_image_url" name="image_url" class="form-control">
+                            <label for="edit_image_input">Select Image:</label>
+                            <input type="file" id="edit_image_input" name="image_url" style="display:none;">
+                            <button type="button" id="select_image_button" class="btn btn-secondary">Choose Image</button>
+                            <input type="hidden" id="edit_image_url" name="image_url" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>
                         <button type="button" id="close-edit-popup-btn" class="btn btn-secondary">Close</button>
@@ -176,7 +178,6 @@
                 </div>
             </div>
             
-            <!-- JavaScript -->
             <script>
                 // Function to open popup and fill it with item data
                 function openPopup(itemId, itemText, itemImageUrl) {
@@ -187,7 +188,7 @@
                     // Show popup
                     document.getElementById('popup').style.display = 'flex';
                 }
-
+            
                 // Add click event to each 'Edit' button
                 var editButtons = document.querySelectorAll('.edit');
                 editButtons.forEach(function(button) {
@@ -199,17 +200,29 @@
                         openPopup(itemId, itemText, itemImageUrl);
                     });
                 });
-
+            
                 // Close popup when close button is clicked
                 document.getElementById('close-popup-btn').addEventListener('click', function() {
                     document.getElementById('popup').style.display = 'none';
                 });
-
+            
                 // Close popup when close button inside popup is clicked
                 document.getElementById('close-edit-popup-btn').addEventListener('click', function() {
                     document.getElementById('popup').style.display = 'none';
                 });
-
+            
+                // Trigger file input when 'Choose Image' button is clicked
+                document.getElementById('select_image_button').addEventListener('click', function() {
+                    document.getElementById('edit_image_input').click();
+                });
+            
+                // Update hidden input value and image preview when file is selected
+                document.getElementById('edit_image_input').addEventListener('change', function() {
+                    var file = this.files[0];
+                    var imageUrl = URL.createObjectURL(file);
+                    document.getElementById('edit_image_url').value = imageUrl;
+                });
+            
                 // JavaScript for AJAX request
                 document.getElementById('edit-form').addEventListener('submit', function(event) {
                     event.preventDefault();
@@ -233,8 +246,9 @@
                         location.reload();
                     });
                 });
-
             </script>
+            
+            
             
         </div>
     </div>

@@ -3,6 +3,18 @@ from __main__ import app
 from database.services.beach_bar_restaurant_service import BeachBarRestaurantService
 from database.services.header_image_service import HeaderImageService
 from database.services.footer_service import FooterService
+
+from werkzeug.utils import secure_filename
+import os
+
+UPLOAD_FOLDER = '/static/img'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @app.route('/beach_bar_restaurant')
 def beach_bar_restaurant():
     restaurant_info = BeachBarRestaurantService.get_restaurant_info_by_id(1)
@@ -10,7 +22,7 @@ def beach_bar_restaurant():
     drinks = BeachBarRestaurantService.get_all_drinks()
     image_collection = BeachBarRestaurantService.get_all_image_collection()
     menus = BeachBarRestaurantService.get_all_restaurant_menu()
-    header_image = HeaderImageService.get_header_image_by_name("Home Page")
+    header_image = HeaderImageService.get_header_image_by_name("Beach bar restaurant")
     footer = FooterService.get_footer_by_id(1)
     if restaurant_info is None:
         restaurant_name='Beachfront Restaurant'
@@ -49,7 +61,11 @@ def edit_beach_bar_restaurant_foods():
 @app.route('/add_foods', methods=['POST'])
 def add_foods():
     name = request.form['name']
-    image_url = request.form['image_url']
+    image_file = request.files['image_file']
+    if image_file and allowed_file(image_file.filename):
+        filename = secure_filename(image_file.filename)
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        image_url = filename
     BeachBarRestaurantService.add_food(name=name, image_url=image_url)
     return redirect(url_for('edit_beach_bar_restaurant_foods'))
 
@@ -64,7 +80,15 @@ def delete_foods(item_id):
 def update_foods(item_id):
     if request.method == 'POST':
         name = request.form['name']
-        image_url = request.form['image_url']
+        if 'image_file' in request.files:
+            image_file = request.files['image_file']
+            if image_file and allowed_file(image_file.filename):
+                filename = secure_filename(image_file.filename)
+                image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                image_url = filename
+        else:
+            # If no image file is provided, keep the existing image URL
+            image_url = request.form['image_file']
         BeachBarRestaurantService.update_food(item_id, name=name, image_url=image_url)
         return redirect(url_for('edit_beach_bar_restaurant_foods'))
     return render_template('edit_beach_bar_restaurant_foods.html')
@@ -78,7 +102,11 @@ def edit_beach_bar_restaurant_drinks():
 @app.route('/add_drinks', methods=['POST'])
 def add_drinks():
     name = request.form['name']
-    image_url = request.form['image_url']
+    image_file = request.files['image_file']
+    if image_file and allowed_file(image_file.filename):
+        filename = secure_filename(image_file.filename)
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        image_url = filename
     BeachBarRestaurantService.add_drink(name=name, image_url=image_url)
     return redirect(url_for('edit_beach_bar_restaurant_drinks'))
 
@@ -93,7 +121,15 @@ def delete_drinks(item_id):
 def update_drinks(item_id):
     if request.method == 'POST':
         name = request.form['name']
-        image_url = request.form['image_url']
+        if 'image_file' in request.files:
+            image_file = request.files['image_file']
+            if image_file and allowed_file(image_file.filename):
+                filename = secure_filename(image_file.filename)
+                image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                image_url = filename
+        else:
+            # If no image file is provided, keep the existing image URL
+            image_url = request.form['image_file']
         BeachBarRestaurantService.update_drink(item_id, name=name, image_url=image_url)
         return redirect(url_for('edit_beach_bar_restaurant_drinks'))
     return render_template('edit_beach_bar_restaurant_drinks.html')
@@ -106,8 +142,12 @@ def edit_beach_bar_restaurant_discover_our_beach_bar():
 # Route để thêm mục mới
 @app.route('/add_discover_our_beach_bars', methods=['POST'])
 def add_discover_our_beach_bars():
-    image_url = request.form['image_url']
     overlay_content = request.form['overlay_content']
+    image_file = request.files['image_file']
+    if image_file and allowed_file(image_file.filename):
+        filename = secure_filename(image_file.filename)
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        image_url = filename
     BeachBarRestaurantService.add_image_collection(image_url=image_url, overlay_content=overlay_content)
     return redirect(url_for('edit_beach_bar_restaurant_discover_our_beach_bar'))
 
@@ -121,11 +161,21 @@ def delete_discover_our_beach_bars(item_id):
 @app.route('/update_discover_our_beach_bars/<int:item_id>', methods=['GET', 'POST'])
 def update_discover_our_beach_bars(item_id):
     if request.method == 'POST':
-        image_url = request.form['image_url']
-        overlay_content =request.form['overlay_content']
+        overlay_content = request.form['overlay_content']
+        if 'image_file' in request.files:  # Kiểm tra xem người dùng đã gửi file ảnh hay chưa
+            image_file = request.files['image_file']
+            if image_file and allowed_file(image_file.filename):  # Kiểm tra định dạng file ảnh
+                filename = secure_filename(image_file.filename)
+                image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                image_url = filename  # Lưu đường dẫn của ảnh mới
+
+        # Cập nhật thông tin của mục trong cơ sở dữ liệu
         BeachBarRestaurantService.update_image_collection(item_id=item_id, overlay_content=overlay_content, image_url=image_url)
+
         return redirect(url_for('edit_beach_bar_restaurant_discover_our_beach_bar'))
+
     return render_template('edit_beach_bar_restaurant_discover_our_beach_bar.html')
+
 
 @app.route('/edit_beach_bar_restaurant_menu', methods=['GET', 'POST'])
 def edit_beach_bar_restaurant_menu():
@@ -135,7 +185,11 @@ def edit_beach_bar_restaurant_menu():
 # Route để thêm mục mới
 @app.route('/add_menu', methods=['POST'])
 def add_menu():
-    image_url = request.form['image_url']
+    image_file = request.files['image_file']
+    if image_file and allowed_file(image_file.filename):
+        filename = secure_filename(image_file.filename)
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        image_url = filename
     BeachBarRestaurantService.add_restaurant_menu(image_url=image_url)
     return redirect(url_for('edit_beach_bar_restaurant_menu'))
 
@@ -149,7 +203,15 @@ def delete_menu(item_id):
 @app.route('/update_menu/<int:item_id>', methods=['GET', 'POST'])
 def update_menu(item_id):
     if request.method == 'POST':
-        image_url = request.form['image_url']
+        if 'image_file' in request.files:
+            image_file = request.files['image_file']
+            if image_file and allowed_file(image_file.filename):
+                filename = secure_filename(image_file.filename)
+                image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                image_url = filename
+        else:
+            # If no image file is provided, keep the existing image URL
+            image_url = request.form['image_file']
         BeachBarRestaurantService.update_restaurant_menu(item_id, image_url=image_url)
         return redirect(url_for('edit_beach_bar_restaurant_menu'))
     return render_template('edit_beach_bar_restaurant_menu.html')

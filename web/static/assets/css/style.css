@@ -756,6 +756,29 @@ td {
         transition: #007bff 0.3s ease;
         border-radius: 50%; 
     }
+    .activity-item {
+        flex: 0 0 auto;
+        width: 300px;
+        height: 300px;
+        overflow: hidden;
+        position: relative;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+    .swiper-container_bar {
+        width: 120%;
+        height: 120%;
+        overflow: hidden; /* Ẩn các phần tử vượt ra ngoài khung nhìn */
+    }
+    .menu-item {
+        width: 35%; /* Độ rộng của ảnh */
+        height: 35%; /* Chiều cao của ảnh */
+        object-fit: cover; /* Đảm bảo ảnh bao phủ khu vực cố định */
+        display: block; /* Hiển thị ảnh như một khối */
+        margin: 0 auto; /* Căn giữa ảnh trong menu */
+    }
 }
 
 @keyframes bounce {

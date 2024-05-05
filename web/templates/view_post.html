@@ -39,11 +39,13 @@
 
         .post-content {
             margin-bottom: 20px;
+            font-size: 20px;
         }
 
         .post-meta {
             color: #666;
             margin-bottom: 10px;
+            font-size: 20px;
         }
 
         .post-meta strong {
@@ -65,6 +67,20 @@
             max-width: 100%;
             border-radius: 5px;
             margin-bottom: 20px;
+        }
+        /* Responsive design */
+        @media only screen and (max-width: 700px) {
+            .post-content {
+            margin-bottom: 20px;
+            font-size: 13px;
+            }
+
+            .post-meta {
+                color: #666;
+                margin-bottom: 10px;
+                font-size: 13px;
+            }
+
         }
     </style>
 </head>
@@ -89,13 +105,13 @@
     <div class="container">
         <h1 class="post-title">{{ post.title }}</h1>
         {% if post.image_url %}
-        <img class="post-image" src="{{ post.image_url }}" alt="Post Image">
+        <img class="post-image" src="{{ url_for('static', filename='img/' + post.image_url) }}" alt="Post Image">
         {% endif %}
         <div class="post-content">
             <p>{{ post.content }}</p>
         </div>
         <div class="post-meta">
-            <p><strong>Posted by:</strong> User {{ post.user_id }}</p>
+            <p><strong>Posted by:</strong> Admin</p>
             <p><strong>Posted at:</strong> {{ post.created_at }}</p>
         </div>
         <a class="back-link" href="{{ url_for('post') }}">Back to Posts</a>

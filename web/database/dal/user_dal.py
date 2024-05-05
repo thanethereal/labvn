@@ -30,6 +30,14 @@ class UserDAL:
             raise e
         
     @staticmethod
+    def get_user_by_id(user_id):
+        try:
+            return session.query(User).filter_by(id=user_id).first()
+        except SQLAlchemyError as e:
+            session.rollback()
+            raise e
+        
+    @staticmethod
     def get_all_users():
         try:
             return session.query(User).order_by(User.id).all()
@@ -136,5 +144,5 @@ class UserProfileDAL:
         
     @staticmethod
     def merge_user_user_profile():
-        return session.query(User).outerjoin(UserProfile).options(contains_eager(User.profile)
+        return session.query(User).join(UserProfile).options(contains_eager(User.profile)
 )
