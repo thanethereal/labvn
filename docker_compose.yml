@@ -16,6 +16,10 @@ services:
       POSTGRES_PASSWORD: lifesabeach
       POSTGRES_DB: lifesabeach
       DATABASE_URL: postgresql://lifesabeach:lifesabeach@db/lifesabeach
+    depends_on:
+      - db
+    networks:
+      - postgres
 
   db:
     image: postgres

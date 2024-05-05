@@ -36,5 +36,5 @@ class RestaurantBarMenu(Base):
     id = Column(Integer, primary_key=True)
     image_url = Column(String)
 
-engine = create_engine('postgresql://lifesabeach:lifesabeach@localhost:5432/lifesabeach')
+engine = create_engine('postgresql://lifesabeach:lifesabeach@db:5432/lifesabeach')
 Base.metadata.create_all(engine)

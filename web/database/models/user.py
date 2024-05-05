@@ -17,7 +17,7 @@ class UserProfile(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
     avatar = Column(String(255))
-    bio = Column(String(255))
+    bio = Column(String)
     role = Column(String(50))
     link_facebook = Column(String(255))
     link_instagram = Column(String(255))
@@ -26,7 +26,7 @@ class UserProfile(Base):
     # More profile fields can be added as needed
 
 # Tạo engine để kết nối đến cơ sở dữ liệu PostgreSQL
-engine = create_engine('postgresql://lifesabeach:lifesabeach@localhost:5432/lifesabeach')
+engine = create_engine('postgresql://lifesabeach:lifesabeach@db:5432/lifesabeach')
 
 # Tạo bảng trong cơ sở dữ liệu
 Base.metadata.create_all(engine)

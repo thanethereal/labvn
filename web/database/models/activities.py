@@ -10,5 +10,5 @@ class Activities(Base):
     description = Column(String)
     image_urls = Column(ARRAY(String))
 
-engine = create_engine('postgresql://lifesabeach:lifesabeach@localhost:5432/lifesabeach')
+engine = create_engine('postgresql://lifesabeach:lifesabeach@db:5432/lifesabeach')
 Base.metadata.create_all(engine)
