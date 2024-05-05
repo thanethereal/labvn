@@ -26,7 +26,14 @@
             <div class="swiper-pagination"></div>
         </div>
     </div>
-    
+    <style>
+        /* Media query for screens smaller than a certain size (e.g., laptops with smaller resolutions) */
+            @media screen and (max-width: 1366px) {
+                .description-image img {
+                    max-width: 60%; /* Reduce the image size for smaller laptop screens */
+                }
+            }
+    </style>
     {% for item in descriptions %}
     <section class="description-section">
         <div class="description-content">
