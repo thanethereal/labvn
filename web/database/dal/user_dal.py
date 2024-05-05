@@ -144,4 +144,4 @@ class UserProfileDAL:
         
     @staticmethod
     def merge_user_user_profile():
-        return session.query(User).outerjoin(UserProfile).options(contains_eager(User.profile).all())
+        return session.query(User).outerjoin(UserProfile).options(contains_eager(User.profile))
