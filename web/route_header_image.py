@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-from __main__ import app
+from app import app
 from database.services.header_image_service import HeaderImageService
 
 from werkzeug.utils import secure_filename
