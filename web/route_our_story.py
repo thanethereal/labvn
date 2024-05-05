@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-from __main__ import app
+app = Flask(__name__)
 from database.services.our_story_service import OurStoryService, TourismBenefitEveryoneService
 from database.services.user_service import UserProfileService
 from database.services.header_image_service import HeaderImageService
