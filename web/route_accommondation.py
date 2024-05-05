@@ -5,7 +5,7 @@ from database.services.header_image_service import HeaderImageService
 from database.services.footer_service import FooterService
 from werkzeug.utils import secure_filename
 import os
-UPLOAD_FOLDER = '/usr/share/nginx/static'
+UPLOAD_FOLDER = '/usr/share/nginx/static/img'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
