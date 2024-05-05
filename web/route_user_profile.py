@@ -36,7 +36,6 @@ def update_user(item_id):
         else:
             # If no image file is provided, keep the existing image URL
             image_url = request.form['image_upload']
-        print(description)
         UserProfileService.update_profile(user_id=item_id, avatar=image_url, bio=description, role=role, link_facebook=link_facebook, link_instagram=link_instagram, link_zalo=link_zalo)
         return redirect(url_for('edit_user'))
     # Render template cho trang sửa
