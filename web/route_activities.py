@@ -17,7 +17,7 @@ def allowed_file(filename):
 @app.route('/activities')
 def activities():
     activities = ActivitiesService.get_all_activities()
-    header_image = HeaderImageService.get_header_image_by_name("Activities")
+    header_image = HeaderImageService.get_header_image_by_id(3)
     footer = FooterService.get_footer_by_id(1)
     return render_template('activities.html', activities= activities, header_image=header_image, footer=footer)
 

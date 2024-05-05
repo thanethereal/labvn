@@ -133,6 +133,7 @@
                                         <tr>
                                             <th>Title</th>
                                             <th>Image</th>
+                                            <th>Link</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -141,7 +142,7 @@
                                         <tr>
                                             <td>{{ item.title }}</td>
                                             <td><img src="{{ url_for('static', filename='img/' + item.image_url) }}" alt="{{ item.title }}" class="img-thumbnail" style="width: 100px;"></td>
-
+                                            <td>{{ item.link }}</td>
                                             <td>
                                                 <div class="action-buttons">
                                                     <style>

@@ -23,7 +23,7 @@ def utility_processor():
 @app.route('/post')
 def post():
     posts = PostService.get_all_posts()
-    header_image = HeaderImageService.get_header_image_by_name("Post")
+    header_image = HeaderImageService.get_header_image_by_id(7)
     footer = FooterService.get_footer_by_id(1)
     if not posts:
         # Generate fake data if posts are empty

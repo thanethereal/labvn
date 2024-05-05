@@ -18,7 +18,7 @@ def allowed_file(filename):
 def gettinghere():
     info = GettingHereService.get_getting_here_info_by_id(1)
     getting_heres = GettingHereService.get_all_getting_heres()
-    header_image = HeaderImageService.get_header_image_by_name("Getting here")
+    header_image = HeaderImageService.get_header_image_by_id(5)
     footer = FooterService.get_footer_by_id(1)
     return render_template('gettinghere.html', info=info, getting_heres=getting_heres, header_image=header_image, footer=footer)
 

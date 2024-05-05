@@ -19,7 +19,7 @@ def allowed_file(filename):
 def home_page():
     descriptions = HomePageService.get_all_descriptions()
     main_sections = HomePageService.get_all_sections()
-    header_image = HeaderImageService.get_header_image_by_name("Home Page")
+    header_image = HeaderImageService.get_header_image_by_id(1)
     footer = FooterService.get_footer_by_id(1)
     return render_template('home_page.html', descriptions = descriptions, main_sections = main_sections, header_image= header_image, footer=footer)
 
@@ -97,7 +97,7 @@ def update_home_page_main_section(item_id):
     if request.method == 'POST':
         # Lấy dữ liệu mới từ form
         title = request.form['title']
-        link = request.form['link']
+        link = ""
         if 'image_url' in request.files:
             image_file = request.files['image_url']
             if image_file and allowed_file(image_file.filename):

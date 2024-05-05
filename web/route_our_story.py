@@ -22,7 +22,7 @@ def aboutus():
     our_story = OurStoryService.get_all_our_stories()
     tourism_benefit_everyones = TourismBenefitEveryoneService.get_all_tourism_benefit_everyones()
     profiles = UserProfileService.get_all_profiles()
-    header_image = HeaderImageService.get_header_image_by_name("About us")
+    header_image = HeaderImageService.get_header_image_by_id(6)
     footer = FooterService.get_footer_by_id(1)
     return render_template('aboutus.html',our_story=our_story, tourism_benefit_everyones=tourism_benefit_everyones, profiles=profiles, header_image=header_image, footer=footer)
 

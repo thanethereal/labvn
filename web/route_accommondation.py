@@ -17,7 +17,7 @@ def allowed_file(filename):
 def accommodations():
     info = AccommodationService.get_accommodation_info_by_id(1)
     rooms = AccommodationService.get_all_room_types()
-    header_image = HeaderImageService.get_header_image_by_id("Accommodations")
+    header_image = HeaderImageService.get_header_image_by_id(2)
     footer = FooterService.get_footer_by_id(1)
     return render_template('accommodations.html', info=info, rooms=rooms, footer= footer, header_image=header_image)
 

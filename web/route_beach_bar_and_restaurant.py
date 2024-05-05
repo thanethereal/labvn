@@ -22,7 +22,7 @@ def beach_bar_restaurant():
     drinks = BeachBarRestaurantService.get_all_drinks()
     image_collection = BeachBarRestaurantService.get_all_image_collection()
     menus = BeachBarRestaurantService.get_all_restaurant_menu()
-    header_image = HeaderImageService.get_header_image_by_name("Beach bar restaurant")
+    header_image = HeaderImageService.get_header_image_by_id(4)
     footer = FooterService.get_footer_by_id(1)
     if restaurant_info is None:
         restaurant_name='Beachfront Restaurant'
