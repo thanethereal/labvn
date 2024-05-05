@@ -27,10 +27,20 @@
         </div>
     </div>
     <style>
+        /* Thiết lập kích thước mặc định cho hình ảnh */
         .description-image img {
-                    max-width: 60%; /* Reduce the image size for smaller laptop screens */
-                    max-height: 60%; /* Reduce the image size for smaller laptop screens */
-                }
+            max-width: 100%; /* Kích thước tối đa cho tất cả các thiết bị */
+            height: auto; /* Đảm bảo tỷ lệ khung hình không bị biến đổi */
+        }
+
+/* Thiết lập kích thước cho các thiết bị laptop */
+@media only screen and (min-width: 1024px) {
+    .description-image img {
+        max-width: 80%; /* Giảm kích thước hình ảnh trên laptop */
+        max-height: 80%; /* Giảm kích thước hình ảnh trên laptop */
+    }
+}
+
     </style>
     {% for item in descriptions %}
     <section class="description-section">
