@@ -1,7 +1,7 @@
 from database.models.getting_here import *
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import sessionmaker
-engine = create_engine('postgresql://lifesabeach:lifesabeach@db:5432/lifesabeach')
+engine = create_engine('postgresql://lifesabeach:lifesabeach@localhost:5432/lifesabeach')
 Session = sessionmaker(bind=engine)
 session = Session()
 class GettingHereDAL:

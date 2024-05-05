@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-app = Flask(__name__)
+from __main__ import app
 from database.services.getting_here_service import GettingHereService
 from database.services.header_image_service import HeaderImageService
 from database.services.footer_service import FooterService

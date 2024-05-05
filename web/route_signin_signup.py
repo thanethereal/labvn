@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-app = Flask(__name__)
+from __main__ import app
 from database.services.user_service import UserService
 from database.models.user import *
 from flask import session
