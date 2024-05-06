@@ -114,11 +114,11 @@
                 </div>
             </div>
             <div class="member">
-                {% for member in profiles %}
+                {% for user, member in profiles %}
                 <div class="profile">
                     <a href="{{ url_for('member_profile', id=member.id) }}">
                         <img src="{{ url_for('static', filename='img/' + member.avatar) }}" alt="{{ member.name }}">
-                        <h3>{{ member.name }}</h3>
+                        <h3>{{ user.name }}</h3>
                     </a>
                     <p style="font-size: 2rem;">{{ member.name }}</p>
                     <p style="font-size: 2rem;">{{ member.role }}</p>
