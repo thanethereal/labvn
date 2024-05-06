@@ -90,7 +90,7 @@ class UserProfileDAL:
     @staticmethod
     def get_profile_by_user_id(user_id):
         try:
-            return session.query(UserProfile).filter_by(user_id=user_id).first()
+            return session.query(UserProfile).filter_by(id=user_id).first()
         except SQLAlchemyError as e:
             session.rollback()
             raise e
