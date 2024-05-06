@@ -114,23 +114,19 @@
                 </div>
             </div>
             <div class="member">
-                {% for member in profiles %}
+                {% for user, member in profiles %}
                 <div class="profile">
                     <a href="{{ url_for('member_profile', id=member.id) }}">
-                        {% if user.profile %}
-                                            <img src="{{ url_for('static', filename='img/' + user.profile.avatar) }}" alt="{{ user.name }}" class="img-thumbnail">
-                                        {% else %}
-                                            <img src="{{ url_for('static', filename='img/default_avatar.png') }}" alt="{{ user.name }}" class="img-thumbnail">
-                                        {% endif %}
-                        <h3>{{ member.name }}</h3>
+                        <img src="{{ url_for('static', filename='img/' + member.avatar) }}" alt="{{ member.name }}">
+                        <h3>{{ user.name }}</h3>
                     </a>
                     <p style="font-size: 2rem;">{{ member.name }}</p>
-                    <p style="font-size: 2rem;">{{ member.profile.role }}</p>
-                    <p style="font-size: 1.5rem;">{{ member.profile.bio | truncate(50) }}...<a style="font-size: 1.5rem;">Read more</a></p></p>
+                    <p style="font-size: 2rem;">{{ member.role }}</p>
+                    <p style="font-size: 1.5rem;">{{ member.bio | truncate(50) }}...<a style="font-size: 1.5rem;">Read more</a></p></p>
                     <div class="social-icons">
-                        <a href="{{member.profile.facebook }}"><i class="fa fa-facebook"></i></a>
-                        <a href="{{ member.profile.instagram }}"><i class="fa fa-instagram"></i></a>
-                        <a href="{{ member.profile.zalo }}"><i class="fa fa-zalo"></i></a>
+                        <a href="{{ member.facebook }}"><i class="fa fa-facebook"></i></a>
+                        <a href="{{ member.instagram }}"><i class="fa fa-instagram"></i></a>
+                        <a href="{{ member.zalo }}"><i class="fa fa-zalo"></i></a>
                         <!-- Thêm các liên kết và icon khác tại đây -->
                     </div>
                 </div>
