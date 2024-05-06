@@ -149,7 +149,10 @@ class UserProfileDAL:
     @staticmethod
     def join_user_profile():
         user_alias = aliased(User)
-        stmt = select(User, UserProfile).outerjoin(user_alias, User.id == UserProfile.user_id)
+        stmt = (
+            select(User, UserProfile)
+            .select_from(User)
+            .outerjoin(UserProfile, User.id == UserProfile.user_id)
+        )
 
-        # Thực thi truy vấn và lấy kết quả
-        return session.execute(stmt).all()
+        return session.execute(stmt).fetchall()
