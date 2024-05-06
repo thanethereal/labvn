@@ -16,7 +16,7 @@ def allowed_file(filename):
 
 @app.route('/edit_user', methods=['GET', 'POST'])
 def edit_user():
-    users = UserProfileService.merge_user_user_profile()
+    users = UserProfileService.join_user_profile()
     return render_template('edit_user.html', users=users)
 
 @app.route('/update_user/<int:item_id>', methods=['GET', 'POST'])

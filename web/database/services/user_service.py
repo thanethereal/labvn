@@ -51,3 +51,7 @@ class UserProfileService:
     @staticmethod
     def merge_user_user_profile():
         return UserProfileDAL.merge_user_user_profile()
+    
+    @staticmethod
+    def join_user_profile():
+        return UserProfileDAL.join_user_profile()
