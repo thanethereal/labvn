@@ -148,9 +148,10 @@ class UserProfileDAL:
     
     @staticmethod
     def join_user_profile():
-        stmt = (
-            select(User).options(contains_eager(User.profile))
-            .outerjoin(UserProfile, User.id == UserProfile.user_id)
-        )
+                # Tạo câu truy vấn kết hợp LEFT JOIN và load dữ liệu từ UserProfile
+        stmt = session.query(User).outerjoin(User.profile).options(contains_eager(User.profile))
 
-        return session.execute(stmt).fetchall()
+        # Lấy danh sách kết quả
+        users = stmt.all()
+
+        return users

@@ -117,16 +117,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for user, profile in users %}
+                                {% for user in users %}
                                 <tr>
                                     <td>{{ user.name }}</td>
                                     <td>
-                                        <img src="{{ url_for('static', filename='img/' + profile.avatar) }}" alt="{{ user.name }}" class="img-thumbnail">
+                                        {% if user.profile %}
+                                            <img src="{{ url_for('static', filename='img/' + user.profile.avatar) }}" alt="{{ user.name }}" class="img-thumbnail">
+                                        {% else %}
+                                            <img src="{{ url_for('static', filename='img/default_avatar.png') }}" alt="{{ user.name }}" class="img-thumbnail">
+                                        {% endif %}
                                     </td>
                                     <td>
-                                        <!-- Nếu không có profile, hiển thị N/A -->
-                                        {% if profile %}
-                                            {{ profile.bio }}
+                                        {% if user.profile %}
+                                            {{ user.profile.bio }}
                                         {% else %}
                                             N/A
                                         {% endif %}
@@ -137,6 +140,7 @@
                                 </tr>
                                 {% endfor %}
                             </tbody>
+                            
                             
                             
                         </table>
