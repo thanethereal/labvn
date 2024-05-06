@@ -117,7 +117,11 @@
                 {% for member in profiles %}
                 <div class="profile">
                     <a href="{{ url_for('member_profile', id=member.id) }}">
-                        <img src="{{ url_for('static', filename='img/' + member.profile.avatar) }}" alt="{{ member.name }}">
+                        {% if user.profile %}
+                                            <img src="{{ url_for('static', filename='img/' + user.profile.avatar) }}" alt="{{ user.name }}" class="img-thumbnail">
+                                        {% else %}
+                                            <img src="{{ url_for('static', filename='img/default_avatar.png') }}" alt="{{ user.name }}" class="img-thumbnail">
+                                        {% endif %}
                         <h3>{{ member.name }}</h3>
                     </a>
                     <p style="font-size: 2rem;">{{ member.name }}</p>
