@@ -3,7 +3,7 @@ import bcrypt
 from bcrypt import hashpw, gensalt
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import sessionmaker, relationship, contains_eager, aliased
-
+from sqlalchemy import select
 engine = create_engine('postgresql://lifesabeach:lifesabeach@localhost:5432/lifesabeach')
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -149,4 +149,5 @@ class UserProfileDAL:
     @staticmethod
     def join_user_profile():
         user_alias = aliased(User)
-        return session.select(User, UserProfile).outerjoin(user_alias, User.id == UserProfile.user_id)
+
+        return select(User, UserProfile).outerjoin(user_alias, User.id == UserProfile.user_id)
