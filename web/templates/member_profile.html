@@ -39,7 +39,7 @@
                             <img src="{{ url_for('static', filename='img/' + member.avatar) }}" alt="{{ member.name }}" class="img-fluid rounded-circle mb-3 rounded-image">
                         </div>
                         <div class="col-md-8">
-                            <h2>{{ member.name }}</h2>
+                            <h2>{{ member.user.name }}</h2>
                             <p style="font-size: 2rem;" class="text-muted">{{ member.role }}</p>
                             <div class="bio">
                                 <h3>Bio</h3>
