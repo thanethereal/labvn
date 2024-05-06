@@ -117,19 +117,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for item in users %}
+                                {% for user, profile in users %}
                                 <tr>
-                                    <td>{{ item.name }}</td>
+                                    <td>{{ user.name }}</td>
                                     <td>
-                                       
+                                        <!-- Nếu không có profile, hiển thị N/A -->
+                                        {% if profile %}
+                                            {{ profile.bio }}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
                                     </td>
-                                    <td>{{ item.bio }}</td>
                                     <td>
-                                        <a href="#" class="edit btn btn-primary" data-item-id="{{ item.id }}"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="#" class="edit btn btn-primary" data-item-id="{{ user.id }}"><i class="fas fa-edit"></i> Edit</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
+                            
                         </table>
                     </div>
                 
