@@ -148,10 +148,8 @@ class UserProfileDAL:
     
     @staticmethod
     def join_user_profile():
-        user_alias = aliased(User)
         stmt = (
-            select(User, UserProfile)
-            .select_from(User)
+            select(User).options(contains_eager(User.profile))
             .outerjoin(UserProfile, User.id == UserProfile.user_id)
         )
 
