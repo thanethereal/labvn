@@ -123,7 +123,7 @@ class UserProfileDAL:
                 session.commit()
                 return profile
             else:
-                profile = UserProfileDAL.create_profile(user_id=user_id, avatar=avatar, bio=bio, role=role, link_facebook=link_instagram, link_instagram=link_instagram, link_zalo=link_zalo)
+                profile = UserProfileDAL.update_profile(user_id=user_id, avatar=avatar, bio=bio, role=role, link_facebook=link_instagram, link_instagram=link_instagram, link_zalo=link_zalo)
         except SQLAlchemyError as e:
             session.rollback()
             raise e
