@@ -131,7 +131,7 @@ class UserProfileDAL:
     @staticmethod
     def delete_profile(user_id):
         try:
-            profile = UserProfileDAL.get_profile_by_user_id(user_id)
+            profile = UserDAL.get_user_by_id(user_id)
             if profile:
                 session.delete(profile)
                 session.commit()
