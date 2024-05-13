@@ -136,7 +136,7 @@
                                     </td>
                                     <td>
                                         <a href="#" class="edit btn btn-primary" data-item-id="{{ user.id }}"><i class="fas fa-edit"></i> Edit</a>
-                                        <a href="#" class="delete btn btn-danger" data-item-id="{{ user.id }}"><i class="fas fa-trash"></i> Delete</a>
+                                        <a href="/delete_user/{{ user.id }}" class="delete btn btn-danger"><i class="fas fa-trash"></i> Delete</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
