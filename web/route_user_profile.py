@@ -20,7 +20,7 @@ def edit_user():
     return render_template('edit_user.html', users=users)
 
 @app.route('/delete_user/<int:item_id>', methods=['GET', 'POST'])
-def edit_user(item_id):
+def delete_user(item_id):
     users = UserProfileService.delete_profile(item_id)
     return render_template('edit_user.html', users=users)
 
