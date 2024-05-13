@@ -21,8 +21,8 @@ def edit_user():
 
 @app.route('/delete_user/<int:item_id>', methods=['GET', 'POST'])
 def delete_user(item_id):
-    users = UserProfileService.delete_profile(item_id)
-    return render_template('edit_user.html', users=users)
+    UserProfileService.delete_profile(item_id)
+    return render_template('edit_user.html')
 
 @app.route('/update_user/<int:item_id>', methods=['GET', 'POST'])
 def update_user(item_id):
