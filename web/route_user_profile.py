@@ -19,6 +19,11 @@ def edit_user():
     users = UserProfileService.join_user_profile()
     return render_template('edit_user.html', users=users)
 
+@app.route('/delete_user/<int:item_id>', methods=['GET', 'POST'])
+def edit_user(item_id):
+    users = UserProfileService.delete_profile(item_id)
+    return render_template('edit_user.html', users=users)
+
 @app.route('/update_user/<int:item_id>', methods=['GET', 'POST'])
 def update_user(item_id):
     if request.method == 'POST':
