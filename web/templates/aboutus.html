@@ -116,7 +116,7 @@
             <div class="member">
                 {% for user, member in profiles %}
                 <div class="profile">
-                    <a href="{{ url_for('member_profile', id=member.id) }}">
+                    <a href="{{ url_for('member_profile', id=member.user_id) }}">
                         <img src="{{ url_for('static', filename='img/' + member.avatar) }}" alt="{{ member.name }}">
                         <h3>{{ user.name }}</h3>
                     </a>
