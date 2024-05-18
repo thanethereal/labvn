@@ -128,7 +128,7 @@
                                                 color: white;
                                             }
                                         </style>
-                                        <a href="/update_beach_bar_restaurant_info/{{ item.id }}" class="edit btn btn-primary" data-item-id="{{ item.id }}"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="/update_beach_bar_restaurant_info/{{ item.id }}" class="edit btn btn-primary" data-item-id="{{ item.id }}" data_restaurant_name="{{item.restaurant_name}}" data_beach_bar_hours="{{item.beach_bar_hours}}" data_restaurant_hours="{{item.restaurant_hours}}" data_happy_hour_hours="{{item.happy_hour_hours}}" data_description="{{item.description}}"><i class="fas fa-edit"></i> Edit</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -136,7 +136,35 @@
                         </table>
                     </div>
                     
-    
+                    <style>
+                        .popup-overlay {
+                            display: none;
+                            position: fixed;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            background: rgba(0, 0, 0, 0.7);
+                            justify-content: center;
+                            align-items: center;
+                            z-index: 1000;
+                        }
+                    
+                        .popup-content {
+                            background: white;
+                            padding: 20px;
+                            border-radius: 5px;
+                            width: 80%;
+                            max-height: 80%;
+                            overflow-y: auto; /* Enable vertical scrolling */
+                        }
+                    
+                        .close-btn {
+                            float: right;
+                            font-size: 24px;
+                            cursor: pointer;
+                        }
+                    </style>
                 <div class="popup-overlay" id="popup">
                     <div class="popup-content">
                         <span class="close-btn" id="close-popup-btn">&times;</span>
@@ -153,7 +181,7 @@
                             <textarea id="edit_happy_hour_hours" name="happy_hour_hours" rows="4" cols="50"></textarea><br>
                             <label for="edit_description">Description:</label><br>
                             <textarea id="edit_description" name="description" rows="4" cols="50"></textarea><br>
-                            <input type="submit" value="Save">
+                            <input style="background-color: #007bff;" type="submit" value="Save">
                             <button type="button" id="close-edit-popup-btn">Close</button>
                         </form>
                     </div>
@@ -180,11 +208,11 @@
                         button.addEventListener('click', function(event) {
                             event.preventDefault();
                             var itemId = this.getAttribute('data-item-id'); // Lấy itemId từ nút "Edit"
-                            var itemRestaurantName = ""; // Bạn có thể lấy itemImageUrl từ một thuộc tính khác của mục nếu cần
-                            var itemBeachBarHours = ""; 
-                            var itemRestaurantHours = ""; 
-                            var itemHappyHours = ""; 
-                            var itemDescription = ""; 
+                            var itemRestaurantName = this.getAttribute('data_restaurant_name');; // Bạn có thể lấy itemImageUrl từ một thuộc tính khác của mục nếu cần
+                            var itemBeachBarHours = this.getAttribute('data_beach_bar_hours');; 
+                            var itemRestaurantHours = this.getAttribute('data_restaurant_hours');; 
+                            var itemHappyHours = this.getAttribute('data_happy_hour_hours');; 
+                            var itemDescription = this.getAttribute('data_description');; 
                             openPopup(itemId, itemRestaurantName, itemBeachBarHours, itemRestaurantHours, itemHappyHours, itemDescription);
                         });
                     });

@@ -89,7 +89,8 @@ class AccommodationDAL:
             item = AccommodationDAL.get_room_type_by_id(item_id)
             item.name = name
             item.description = description
-            item.image_urls = image_urls
+            if len(image_urls) != 0:
+                item.image_urls = image_urls
             session.commit()
             return item
         except SQLAlchemyError as e:

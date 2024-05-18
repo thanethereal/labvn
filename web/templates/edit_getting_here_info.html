@@ -120,7 +120,7 @@
                                         {{ item.description}}
                                     </td>
                                     <td>
-                                    <a href="/update_getting_here_info/{{ item.id }}" class="edit btn btn-primary" data-item-id="{{ item.id }}"><i class="fas fa-edit"></i> Edit</a>
+                                    <a href="/update_getting_here_info/{{ item.id }}" class="edit btn btn-primary" data-item-id="{{ item.id }}" data-title="{{ item.title }}" data-description="{{ item.description }}"><i class="fas fa-edit"></i> Edit</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -162,8 +162,8 @@
                         button.addEventListener('click', function(event) {
                             event.preventDefault();
                             var itemId = this.getAttribute('data-item-id'); // Lấy itemId từ nút "Edit"
-                            var itemTitle = ""; 
-                            var itemDescription = ""; 
+                            var itemTitle = this.getAttribute('data-title'); ;
+                            var itemDescription = this.getAttribute('data-description'); 
                             openPopup(itemId, itemTitle, itemDescription);
                         });
                     });

@@ -39,7 +39,8 @@ class HomePageDAL:
         try:
             item = HomePageDAL.get_description_by_id(item_id)
             item.text = text
-            item.image_url = image_url
+            if image_url:
+                item.image_url = image_url
             session.commit()
             return item
         except SQLAlchemyError as e:
@@ -99,7 +100,8 @@ class HomePageDAL:
         try:
             item = HomePageDAL.get_section_by_id(item_id)
             item.tile = title
-            item.image_url = image_url
+            if image_url:
+                item.image_url = image_url
             item.link = link
             session.commit()
             return item

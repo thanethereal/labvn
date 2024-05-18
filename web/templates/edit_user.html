@@ -125,14 +125,15 @@
                                     </td>
                                     <td>{{ item.profile.bio }}</td>
                                     <td>
-                                        <a href="#" class="edit btn btn-primary" data-item-id="{{ item.id }}"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="#" class="edit btn btn-primary" data-item-id="{{ item.id }}" data-description="{{ item.bio }}"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="/delete_user/{{ user.id }}" class="delete btn btn-danger"><i class="fas fa-trash"></i> Delete</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
-                
+                    
                     <div class="popup-overlay" id="popup">
                         <div class="popup-content">
                             <span class="close-btn" id="close-popup-btn">&times;</span>
@@ -187,7 +188,7 @@
                                 event.preventDefault();
                                 var itemId = this.getAttribute('data-item-id');
                                 var itemImageUrls = ""; // You need to get the image URLs from the item
-                                var itemDescription = ""; // You need to get the description from the item
+                                var itemDescription = this.getAttribute('data-description'); // You need to get the description from the item
                                 var itemRole = "";
                                 var itemLinkFaceBook = "";
                                 var itemLinkInsta = "";

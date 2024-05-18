@@ -165,7 +165,7 @@
                                     </td>
                                     <td>{{ item.description }}</td>
                                     <td>
-                                        <a href="/update_accommodation_room_info/{{ item.id }}" class="edit btn btn-primary" data-item-id="{{ item.id }}"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="/update_accommodation_room_info/{{ item.id }}" class="edit btn btn-primary" data-item-id="{{ item.id }}" data-item-name="{{ item.name }}" data-item-image-urls="{{ item.image_urls }}" data-item-description="{{ item.description }}"><i class="fas fa-edit"></i> Edit</a>
                                         <a href="/delete_accommodation_room_info/{{ item.id }}" class="delete btn btn-danger"><i class="fas fa-trash-alt"></i> Delete</a>
                                     </td>
                                 </tr>
@@ -198,9 +198,9 @@
                     </div>
                     
                     <script>
-                        function openPopup(itemId, itemText, itemImageUrls, itemDescription) {
+                        function openPopup(itemId, itemName, itemImageUrls, itemDescription) {
                             document.getElementById('edit_item_id').value = itemId;
-                            document.getElementById('edit_name').value = itemText;
+                            document.getElementById('edit_name').value = itemName;
                     
                             var imageUrls = itemImageUrls.split(',');
                             var container = document.getElementById('edit-image-input-container');
@@ -212,6 +212,7 @@
                                 container.appendChild(div);
                             });
                     
+                            document.getElementById('edit_description').value = itemDescription;
                             document.getElementById('popup').style.display = 'flex';
                         }
                     
@@ -220,10 +221,10 @@
                             button.addEventListener('click', function(event) {
                                 event.preventDefault();
                                 var itemId = this.getAttribute('data-item-id');
-                                var itemText = "";
-                                var itemImageUrls = "";
-                                var itemDescription = "";
-                                openPopup(itemId, itemText, itemImageUrls, itemDescription);
+                                var itemName = this.getAttribute('data-item-name');
+                                var itemImageUrls = this.getAttribute('data-item-image-urls');
+                                var itemDescription = this.getAttribute('data-item-description');
+                                openPopup(itemId, itemName, itemImageUrls, itemDescription);
                             });
                         });
                     
@@ -266,6 +267,7 @@
                             });
                         });
                     </script>
+                    
                     
                     
                 </div>

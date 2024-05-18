@@ -141,7 +141,7 @@
                                                                 color: white;
                                                             }
                                                         </style>
-                                                        <a href="/update_home_page_description/{{ item.id }}" class="edit btn btn-primary" data-item-id="{{ item.id }}"><i class="fas fa-edit"></i> Edit</a>
+                                                        <a href="/update_home_page_description/{{ item.id }}" class="edit btn btn-primary" data-item-id="{{ item.id }}" data-name="{{ item.text }}"><i class="fas fa-edit"></i> Edit</a>
                                                         <a href="/delete_home_page_description/{{ item.id }}" class="delete btn btn-danger"><i class="fas fa-trash-alt"></i> Delete</a>
                                                     </div>
                                                 </td>
@@ -195,7 +195,7 @@
                     button.addEventListener('click', function(event) {
                         event.preventDefault();
                         var itemId = this.getAttribute('data-item-id');
-                        var itemText = this.parentElement.parentElement.previousElementSibling.firstElementChild.innerText;
+                        var itemText =this.getAttribute('data-name');
                         var itemImageUrl = this.parentElement.parentElement.previousElementSibling.lastElementChild.src;
                         openPopup(itemId, itemText, itemImageUrl);
                     });

@@ -181,7 +181,7 @@
                                     </td>
                                     <td>{{ item.description }}</td>
                                     <td>
-                                        <a href="/update_getting_here/{{ item.id }}" class="edit btn btn-primary" data-item-id="{{ item.id }}"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="/update_getting_here/{{ item.id }}" class="edit btn btn-primary" data-item-id="{{ item.id }}" data-name="{{ item.name }}" data-description="{{ item.description }}"><i class="fas fa-edit"></i> Edit</a>
                                         <a href="/delete_getting_here/{{ item.id }}" class="delete btn btn-danger"><i class="fas fa-trash-alt"></i> Delete</a>
                                     </td>
                                 </tr>
@@ -220,7 +220,7 @@
                         function openPopup(itemId, itemText, itemImageUrls, itemLinks, itemDescription) {
                             document.getElementById('edit_item_id').value = itemId;
                             document.getElementById('edit_name').value = itemText;
-                    
+                            document.getElementById('edit_description').value = itemDescription;
                             var imageUrls = itemImageUrls.split(',');
                             var container = document.getElementById('edit-image-input-container');
                             container.innerHTML = '';
@@ -249,10 +249,10 @@
                             button.addEventListener('click', function(event) {
                                 event.preventDefault();
                                 var itemId = this.getAttribute('data-item-id');
-                                var itemText = "";
                                 var itemImageUrls = "";
                                 var itemLinks = "";
-                                var itemDescription = "";
+                                var itemText = this.getAttribute('data-name');
+                                var itemDescription = this.getAttribute('data-description');
                                 openPopup(itemId, itemText, itemImageUrls, itemLinks, itemDescription);
                             });
                         });

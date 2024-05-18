@@ -151,7 +151,7 @@
                                                             color: white;
                                                         }
                                                     </style>
-                                                    <a href="/update_home_page_main_section/{{ item.id }}" class="edit_grid btn btn-primary" data-grid-item-id="{{ item.id }}"><i class="fas fa-edit"></i> Edit</a>
+                                                    <a href="/update_home_page_main_section/{{ item.id }}" class="edit_grid btn btn-primary" data-grid-item-id="{{ item.id }}" data-title="{{ item.title}}" data-link="{{ item.link }}"><i class="fas fa-edit"></i> Edit</a>
                                                     <a href="/delete_home_page_main_section/{{ item.id }}" class="delete btn btn-danger"><i class="fas fa-trash"></i> Delete</a>
                                                 </div>
                                             </td>
@@ -203,9 +203,9 @@
                     button.addEventListener('click', function(event) {
                         event.preventDefault();
                         var itemId = this.getAttribute('data-grid-item-id');
-                        var itemTitle = this.parentElement.parentElement.previousElementSibling.firstElementChild.innerText;
+                        var itemTitle = this.getAttribute('data-title');
                         var itemImageUrl = this.parentElement.parentElement.previousElementSibling.lastElementChild.src;
-                        var itemLink = ""; // You can get itemLink from another attribute if needed
+                        var itemLink = this.getAttribute('data-link');
                         openPopup(itemId, itemTitle, itemImageUrl, itemLink);
                     });
                 });

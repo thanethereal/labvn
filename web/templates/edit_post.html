@@ -148,7 +148,7 @@
                                                             color: white;
                                                         }
                                                     </style>
-                                                    <a href="/update_post/{{ item.id }}" class="edit btn btn-primary" data-item-id="{{ item.id }}"><i class="fas fa-edit"></i> Edit</a>
+                                                    <a href="/update_post/{{ item.id }}" class="edit btn btn-primary" data-item-id="{{ item.id }}" data-title="{{ item.title }}" data-content="{{ item.content }}"><i class="fas fa-edit"></i> Edit</a>
                                                     <a href="/delete_post/{{ item.id }}" class="delete btn btn-danger"><i class="fas fa-trash-alt"></i> Delete</a>
                                                 </td>
                                             </tr>
@@ -196,9 +196,9 @@
                         button.addEventListener('click', function(event) {
                             event.preventDefault();
                             var itemId = this.getAttribute('data-item-id'); // Lấy itemId từ nút "Edit"
-                            var itemTitle = this.parentElement.previousElementSibling.innerText; // Lấy itemText từ cột trước của hàng chứa nút "Edit"
+                            var itemTitle = this.getAttribute('data-title'); // Lấy itemText từ cột trước của hàng chứa nút "Edit"
                             var itemImageUrl = ""; 
-                            var itemContent = "";
+                            var itemContent = this.getAttribute('data-content');;
                             openPopup(itemId, itemTitle, itemContent, itemImageUrl);
                         });
                     });

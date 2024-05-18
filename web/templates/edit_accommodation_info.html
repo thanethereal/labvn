@@ -98,9 +98,9 @@
             <!-- end of navbar navigation -->
             <div class="content">
                 <div class="container">
-                    <h1>Edit discorver our bar</h1>
+                    <h1>Edit accommodation</h1>
                     <!-- Bảng hiển thị các mục đã có trong cơ sở dữ liệu -->
-                    <h2>List discorver our bar</h2>
+                    <h2>List accommodation</h2>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -117,7 +117,7 @@
                                     {{ info.description}}
                                 </td>
                                 <td>
-                                <a href="/update_accommodation_info/{{ info.id }}" class="edit btn btn-primary" data-item-id="{{ info.id }}"><i class="fas fa-edit"></i> Edit</a>
+                                <a href="/update_accommodation_info/{{ info.id }}" class="edit btn btn-primary" data-item-id="{{ info.id }}" data-item-title="{{ info.title }}" data-item-description="{{ info.description }}"><i class="fas fa-edit"></i> Edit</a>
                                 </td>
                             </tbody>
                         </table>
@@ -156,9 +156,9 @@
                     editButtons.forEach(function(button) {
                         button.addEventListener('click', function(event) {
                             event.preventDefault();
-                            var itemId = this.getAttribute('data-item-id'); // Lấy itemId từ nút "Edit"
-                            var itemTitle = ""; 
-                            var itemDescription = ""; 
+                            var itemId = this.getAttribute('data-item-id'); // Get itemId from "Edit" button
+                            var itemTitle = this.getAttribute('data-item-title'); // Get itemTitle from "Edit" button
+                            var itemDescription = this.getAttribute('data-item-description'); // Get itemDescription from "Edit" button
                             openPopup(itemId, itemTitle, itemDescription);
                         });
                     });

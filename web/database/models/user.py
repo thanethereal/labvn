@@ -10,12 +10,12 @@ class User(Base):
     name = Column(String(100), nullable=False)
     email = Column(String(100), nullable=False)
     password = Column(String, nullable=False)
-    profile = relationship("UserProfile", uselist=False, back_populates="user")
+    profile = relationship("UserProfile", uselist=False, back_populates="user",  cascade="all, delete-orphan")
 
 class UserProfile(Base):
     __tablename__ = 'UserProfile'
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey(User.id), nullable=False)
+    user_id = Column(Integer, ForeignKey(User.id, ondelete='CASCADE'), nullable=False)
     avatar = Column(String(255))
     bio = Column(String)
     role = Column(String(50))

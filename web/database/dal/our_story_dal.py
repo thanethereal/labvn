@@ -90,7 +90,8 @@ class TourismBenefitEveryoneDAL:
         try:
             item = TourismBenefitEveryoneDAL.get_tourism_benefit_everyone_by_id(item_id)
             item.text = text
-            item.image_url = image_url
+            if image_url:
+                item.image_url = image_url
             session.commit()
             return item
         except SQLAlchemyError as e:

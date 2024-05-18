@@ -25,10 +25,7 @@ def post():
     posts = PostService.get_all_posts()
     header_image = HeaderImageService.get_header_image_by_id(7)
     footer = FooterService.get_footer_by_id(1)
-    if not posts:
-        # Generate fake data if posts are empty
-        generate_fake_data()
-        posts = PostService.get_all_posts()
+    posts = PostService.get_all_posts()
     return render_template('post.html', posts=posts, header_image=header_image, footer=footer)
 
 def generate_fake_data():
@@ -51,7 +48,7 @@ def edit_post():
 def add_post():
     title = request.form['title']
     content = request.form['content']
-    user_id = 1
+    user_id = 2
     image_file = request.files['image_file']
     if image_file and allowed_file(image_file.filename):
         filename = secure_filename(image_file.filename)

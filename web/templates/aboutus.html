@@ -78,7 +78,7 @@
     <div>
         <div class="row justify-content-center">
             <div class="text-center">
-                <h1 class="section-header">TOURISM BENEFIT EVERYONE</h1>
+                <h1 class="section-header">TOURISM THAT BENEFITS EVERYONE</h1>
             </div>
         </div>
     </div>
@@ -116,19 +116,13 @@
             <div class="member">
                 {% for member in profiles %}
                 <div class="profile">
-                    <a href="{{ url_for('member_profile', id=member.id) }}">
+                    <a href="{{ url_for('member_profile', id=member.user_id) }}">
                         <img src="{{ url_for('static', filename='img/' + member.avatar) }}" alt="{{ member.name }}">
                         <h3>{{ member.name }}</h3>
                     </a>
                     <p style="font-size: 2rem;">{{ member.name }}</p>
                     <p style="font-size: 2rem;">{{ member.role }}</p>
                     <p style="font-size: 1.5rem;">{{ member.bio | truncate(50) }}...<a style="font-size: 1.5rem;">Read more</a></p></p>
-                    <div class="social-icons">
-                        <a href="{{ member.facebook }}"><i class="fa fa-facebook"></i></a>
-                        <a href="{{ member.instagram }}"><i class="fa fa-instagram"></i></a>
-                        <a href="{{ member.zalo }}"><i class="fa fa-zalo"></i></a>
-                        <!-- Thêm các liên kết và icon khác tại đây -->
-                    </div>
                 </div>
                 {% endfor %}
             </div>
@@ -138,7 +132,7 @@
     
     <div class="booking-container">
         <!-- Booking Button -->
-        <button class="booking-button" onclick="redirectToBookingPage()">Booking Now</button>
+        <button class="booking-button" onclick="redirectToBookingPage()">Book Now</button>
         <!-- End Booking Button -->
     </div>
     <!-- End Booking Button -->

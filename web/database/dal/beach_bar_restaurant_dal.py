@@ -147,7 +147,8 @@ class BeachBarRestaurantDAL:
         try:
             item = BeachBarRestaurantDAL.get_drink_by_id(item_id)
             item.name = name
-            item.image_url = image_url
+            if image_url:
+                item.image_url = image_url
             session.commit()
             return item
         except SQLAlchemyError as e:
@@ -196,7 +197,8 @@ class BeachBarRestaurantDAL:
     def update_image_collection(item_id, overlay_content, image_url):
         try:
             item = BeachBarRestaurantDAL.get_image_collection_by_id(item_id)
-            item.image_url = image_url
+            if image_url:
+                item.image_url = image_url
             item.overlay_content = overlay_content
             session.commit()
             return item
@@ -246,7 +248,8 @@ class BeachBarRestaurantDAL:
     def update_restaurant_menu(item_id, image_url):
         try:
             item = BeachBarRestaurantDAL.get_restaurant_menu_by_id(item_id)
-            item.image_url = image_url
+            if image_url:
+                item.image_url = image_url
             session.commit()
             return item
         except SQLAlchemyError as e:
