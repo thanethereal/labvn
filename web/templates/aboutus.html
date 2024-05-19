@@ -120,7 +120,7 @@
                         <img src="{{ url_for('static', filename='img/' + member.avatar) }}" alt="{{ member.name }}">
                         <h3>{{ member.name }}</h3>
                     </a>
-                    <p style="font-size: 2rem;">{{ member.name }}</p>
+                    <p style="font-size: 2rem;">{{ member.user.name }}</p>
                     <p style="font-size: 2rem;">{{ member.role }}</p>
                     <p style="font-size: 1.5rem;">{{ member.bio | truncate(50) }}...<a style="font-size: 1.5rem;">Read more</a></p></p>
                 </div>

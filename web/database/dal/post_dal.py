@@ -40,7 +40,9 @@ class PostDAL:
             post = PostDAL.get_post_by_id(post_id)
             post.title = title
             post.content = content
-            if image_url:
+            if image_url is None:
+                post.image_url = post.image_url
+            else:
                 post.image_url = image_url
             post.user_id = user_id
             session.commit()

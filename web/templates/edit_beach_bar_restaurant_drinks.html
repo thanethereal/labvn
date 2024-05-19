@@ -133,6 +133,12 @@
                                             {% for item in drinks %}
                                             <tr>
                                                 <td>{{ item.name }}</td>
+                                                <style>
+                                                    .img-thumbnail {
+                                                        max-width: 200px; /* Điều chỉnh kích thước tối đa của hình ảnh */
+                                                        height: auto; /* Đảm bảo tỷ lệ khung hình đúng */
+                                                    }
+                                                </style>
                                                 <td><img src="{{ url_for('static', filename='img/' + item.image_url) }}" alt="{{ item.image_url }}" class="img-thumbnail"></td>
                                                 <td>
                                                     <div class="action-buttons">

@@ -90,7 +90,8 @@ class GettingHereDAL:
             item.name = name
             if (len(image_urls)) != 0:
                 item.image_urls = image_urls
-            item.links = links
+            if (len(links)) != 0:
+                item.links = links
             item.description = description
             session.commit()
             return item

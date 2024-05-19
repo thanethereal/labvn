@@ -120,20 +120,34 @@
                                 {% for item in users %}
                                 <tr>
                                     <td>{{ item.name }}</td>
-                                    <td>
-                                       
-                                    </td>
+                                    {% if item.profile and item.profile.avatar %}
+                                        <td><img src="{{ url_for('static', filename='img/' + item.profile.avatar) }}" alt="{{ item.name }}" class="img-thumbnail"></td>
+                                    {% else %}
+                                        <!-- Xử lý trường hợp không có dữ liệu hoặc thuộc tính avatar -->
+                                        <td>Missing Avatar</td>
+                                    {% endif %}
+
                                     <td>{{ item.profile.bio }}</td>
                                     <td>
-                                        <a href="#" class="edit btn btn-primary" data-item-id="{{ item.id }}" data-description="{{ item.bio }}"><i class="fas fa-edit"></i> Edit</a>
-                                        <a href="/delete_user/{{ user.id }}" class="delete btn btn-danger"><i class="fas fa-trash"></i> Delete</a>
+                                        <a href="#" class="edit btn btn-primary" data-item-id="{{ item.id }}" data-description="{{ item.profile.bio }}" data-role="{{ item.profile.role }}"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="/delete_user/{{ item.id }}" class="delete btn btn-danger"><i class="fas fa-trash"></i> Delete</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
-                    
+                    <div>
+                        <!-- Booking Button -->
+                        <button onclick="redirectToSignup()">Add user</button>
+                        <!-- End Booking Button -->
+                    </div>
+                    <script>
+                        function redirectToSignup() {
+                            // Replace the URL with your booking page URL
+                            window.location.href = "https://lifesabeachvietnam.com/signup";
+                        }
+                    </script>
                     <div class="popup-overlay" id="popup">
                         <div class="popup-content">
                             <span class="close-btn" id="close-popup-btn">&times;</span>
@@ -164,6 +178,13 @@
                                     <label>Link zalo:</label>
                                     <input type="text" id="edit_linkzalo" name="linkzalo" class="form-control">
                                 </div>
+                                <style>
+                                    #edit_linkfacebook,
+                                    #edit_linkinsta,
+                                    #edit_linkzalo {
+                                      display: none;
+                                    }
+                                  </style>
                                 <input type="submit" value="Save" class="btn btn-primary">
                                 <button type="button" id="close-edit-popup-btn" class="btn btn-secondary">Close</button>
                             </form>
@@ -189,7 +210,7 @@
                                 var itemId = this.getAttribute('data-item-id');
                                 var itemImageUrls = ""; // You need to get the image URLs from the item
                                 var itemDescription = this.getAttribute('data-description'); // You need to get the description from the item
-                                var itemRole = "";
+                                var itemRole = this.getAttribute('data-role');
                                 var itemLinkFaceBook = "";
                                 var itemLinkInsta = "";
                                 var itemLinkZalo= "";

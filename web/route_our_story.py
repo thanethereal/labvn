@@ -47,6 +47,7 @@ def add_our_story():
 def update_our_story(item_id):
     if request.method == 'POST':
         text = request.form['text']
+        image_url = None
         if 'image_upload' in request.files:
             image_file = request.files['image_upload']
             if image_file and allowed_file(image_file.filename):
@@ -85,6 +86,7 @@ def add_edit_tourism_benefit_everyone():
 def update_tourism_benefit_everyone(item_id):
     if request.method == 'POST':
         text = request.form['text']
+        image_url = None
         if 'image_upload' in request.files:
             image_file = request.files['image_upload']
             if image_file and allowed_file(image_file.filename):

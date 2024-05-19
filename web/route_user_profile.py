@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from app import app
 from database.services.user_service import UserService, UserProfileService
-
+from flask import flash
 from werkzeug.utils import secure_filename
 import os
 
@@ -19,6 +19,11 @@ def edit_user():
     users = UserProfileService.merge_user_user_profile()
     return render_template('edit_user.html', users=users)
 
+@app.route('/delete_user/<int:item_id>', methods=['GET', 'POST'])
+def delete_user(item_id):
+    UserService.delete_user(item_id)
+    return redirect(url_for('edit_user'))
+
 @app.route('/update_user/<int:item_id>', methods=['GET', 'POST'])
 def update_user(item_id):
     if request.method == 'POST':
@@ -27,6 +32,7 @@ def update_user(item_id):
         link_facebook = request.form['linkfacebook']
         link_instagram= request.form['linkinsta']
         link_zalo = request.form['linkzalo']
+        image_url = None
         if 'image_upload' in request.files:
             image_file = request.files['image_upload']
             if image_file and allowed_file(image_file.filename):
@@ -36,6 +42,8 @@ def update_user(item_id):
         else:
             # If no image file is provided, keep the existing image URL
             image_url = request.form['image_upload']
+        if image_url is None:
+            return redirect(url_for('edit_user'))
         UserProfileService.update_profile(user_id=item_id, avatar=image_url, bio=description, role=role, link_facebook=link_facebook, link_instagram=link_instagram, link_zalo=link_zalo)
         return redirect(url_for('edit_user'))
     # Render template cho trang sửa

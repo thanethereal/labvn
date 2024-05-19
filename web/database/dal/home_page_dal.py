@@ -39,7 +39,9 @@ class HomePageDAL:
         try:
             item = HomePageDAL.get_description_by_id(item_id)
             item.text = text
-            if image_url:
+            if image_url is None:
+                item.image_url = item.image_url
+            else:
                 item.image_url = image_url
             session.commit()
             return item
@@ -99,12 +101,15 @@ class HomePageDAL:
     def update_section(item_id, title, image_url, link):
         try:
             item = HomePageDAL.get_section_by_id(item_id)
-            item.tile = title
-            if image_url:
+            item.title = item.title
+            if image_url is None:
+                item.image_url = item.image_url
+            else:
                 item.image_url = image_url
-            item.link = link
+            item.link = item.link
             session.commit()
             return item
         except SQLAlchemyError as e:
             session.rollback()
             raise e
+            

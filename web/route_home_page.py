@@ -47,6 +47,7 @@ def add_home_page_description():
 def update_home_page_description(item_id):
     if request.method == 'POST':
         text = request.form['text']
+        image_url = None
         if 'image_url' in request.files:
             image_file = request.files['image_url']
             if image_file and allowed_file(image_file.filename):
@@ -56,7 +57,6 @@ def update_home_page_description(item_id):
         else:
             # If no image file is provided, keep the existing image URL
             image_url = request.form['image_url']
-
         # Update the description
         HomePageService.update_description(id=item_id, text=text, image_url=image_url)
         return redirect(url_for('edit_home_page_description'))
@@ -97,7 +97,8 @@ def update_home_page_main_section(item_id):
     if request.method == 'POST':
         # Lấy dữ liệu mới từ form
         title = request.form['title']
-        link = ""
+        link = request.form['link']
+        image_url = None
         if 'image_url' in request.files:
             image_file = request.files['image_url']
             if image_file and allowed_file(image_file.filename):

@@ -39,7 +39,10 @@ class OurStoryDAL:
         try:
             item = OurStoryDAL.get_our_story_by_id(item_id)
             item.text = text
-            item.image_url = image_url
+            if image_url is None:
+                item.image_url = item.image_url
+            else:
+                item.image_url = image_url
             session.commit()
             return item
         except SQLAlchemyError as e:
@@ -90,7 +93,9 @@ class TourismBenefitEveryoneDAL:
         try:
             item = TourismBenefitEveryoneDAL.get_tourism_benefit_everyone_by_id(item_id)
             item.text = text
-            if image_url:
+            if image_url is None:
+                item.image_url = item.image_url
+            else:
                 item.image_url = image_url
             session.commit()
             return item

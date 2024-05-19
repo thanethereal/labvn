@@ -90,12 +90,11 @@
         </div>
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="../static/img/527619306.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/445476376.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/527619253.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/445850512.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../static/img/527619249.jpg" alt=""></div>
-                <!-- Thêm các slide khác ở đây -->
+                {% for image_url in header_image.image_urls %}
+                    <div class="swiper-slide">
+                        <img src="{{ url_for('static', filename='img/' + image_url) }}" alt="">
+                    </div>
+                    {% endfor %}
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -126,21 +125,8 @@
     </div>
     
     <!-- End Booking Button -->
-    <footer class="footer">
-        <div>
-            <a href="https://www.facebook.com/"><i class="fa fa-facebook"></i> Facebook</a>
-            <a href="https://www.instagram.com/"><i class="fa fa-instagram"></i> Instagram</a>
-            <a href="https://www.youtube.com/"><i class="fa fa-youtube"></i> YouTube</a>
-            <a href="https://www.tiktok.com/"><i class="fa-brands fa-tiktok"></i> TikTok</a>
-        </div>
-        <div>
-            <p><i class="fa fa-phone"></i> Phone: +84 978931085</p>
-            <p><i class="fa fa-envelope"></i> Email: info@lifesabeachvietnam.com</p>
-            <p><i class="fa fa-map-marker"></i> Address: Thôn 2 Bãi Bàng, QL1D, Xuân Hải, Sông Cầu, Phú Yên 560000, Vietnam</p>
-        </div>
-    </footer>
+    {% include 'footer.html' %}  
     
-
     <script>
         function redirectToBookingPage() {
             // Replace the URL with your booking page URL

@@ -20,7 +20,20 @@ class UserDAL:
             session.rollback()
             raise e
 
-    
+    @staticmethod
+    def delete_user(user_id):
+        try:
+            profile = UserDAL.get_user_by_id(user_id)
+            if profile:
+                session.delete(profile)
+                session.commit()
+                return True
+            else:
+                return False
+        except SQLAlchemyError as e:
+            session.rollback()
+            raise e
+
     @staticmethod
     def get_user_by_email(email):
         try:
@@ -124,20 +137,6 @@ class UserProfileDAL:
                 return profile
             else:
                 profile = UserProfileDAL.create_profile(user_id=user_id, avatar=avatar, bio=bio, role=role, link_facebook=link_instagram, link_instagram=link_instagram, link_zalo=link_zalo)
-        except SQLAlchemyError as e:
-            session.rollback()
-            raise e
-    
-    @staticmethod
-    def delete_profile(user_id):
-        try:
-            profile = UserProfileDAL.get_profile_by_user_id(user_id)
-            if profile:
-                session.delete(profile)
-                session.commit()
-                return True
-            else:
-                return False
         except SQLAlchemyError as e:
             session.rollback()
             raise e

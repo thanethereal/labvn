@@ -80,6 +80,7 @@ def delete_foods(item_id):
 def update_foods(item_id):
     if request.method == 'POST':
         name = request.form['name']
+        image_url = None
         if 'image_file' in request.files:
             image_file = request.files['image_file']
             if image_file and allowed_file(image_file.filename):
@@ -121,6 +122,7 @@ def delete_drinks(item_id):
 def update_drinks(item_id):
     if request.method == 'POST':
         name = request.form['name']
+        image_url = None
         if 'image_file' in request.files:
             image_file = request.files['image_file']
             if image_file and allowed_file(image_file.filename):
@@ -162,6 +164,7 @@ def delete_discover_our_beach_bars(item_id):
 def update_discover_our_beach_bars(item_id):
     if request.method == 'POST':
         overlay_content = request.form['overlay_content']
+        image_url = None
         if 'image_file' in request.files:  # Kiểm tra xem người dùng đã gửi file ảnh hay chưa
             image_file = request.files['image_file']
             if image_file and allowed_file(image_file.filename):  # Kiểm tra định dạng file ảnh
@@ -186,6 +189,7 @@ def edit_beach_bar_restaurant_menu():
 @app.route('/add_menu', methods=['POST'])
 def add_menu():
     image_file = request.files['image_file']
+    image_url = None
     if image_file and allowed_file(image_file.filename):
         filename = secure_filename(image_file.filename)
         image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -203,6 +207,7 @@ def delete_menu(item_id):
 @app.route('/update_menu/<int:item_id>', methods=['GET', 'POST'])
 def update_menu(item_id):
     if request.method == 'POST':
+        image_url = None
         if 'image_file' in request.files:
             image_file = request.files['image_file']
             if image_file and allowed_file(image_file.filename):

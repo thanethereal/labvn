@@ -132,6 +132,12 @@
                                         <tbody>
                                             {% for item in foods %}
                                             <tr>
+                                                <style>
+                                                    .img-thumbnail {
+                                                        max-width: 200px; /* Điều chỉnh kích thước tối đa của hình ảnh */
+                                                        height: auto; /* Đảm bảo tỷ lệ khung hình đúng */
+                                                    }
+                                                </style>
                                                 <td>{{ item.name }}</td>
                                                 <td><img src="{{ url_for('static', filename='img/' + item.image_url) }}" alt="{{ item.image_path }}" class="img-thumbnail"></td>
                                                 <td>

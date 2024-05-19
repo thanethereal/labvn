@@ -48,7 +48,7 @@ def edit_post():
 def add_post():
     title = request.form['title']
     content = request.form['content']
-    user_id = 2
+    user_id = 4
     image_file = request.files['image_file']
     if image_file and allowed_file(image_file.filename):
         filename = secure_filename(image_file.filename)
@@ -62,6 +62,7 @@ def update_post(item_id):
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['content']
+        image_url = None
         if 'image_upload' in request.files:
             image_file = request.files['image_upload']
             if image_file and allowed_file(image_file.filename):
@@ -82,9 +83,11 @@ def delete_post(item_id):
 
 @app.route('/view_post/<int:post_id>')
 def view_post(post_id):
+    header_image = HeaderImageService.get_header_image_by_id(5)
     post = PostService.get_post_by_id(post_id)
+    footer = FooterService.get_footer_by_id(1)
     if post:
-        return render_template('view_post.html', post=post)
+        return render_template('view_post.html', post=post, header_image=header_image, footer=footer)
     else:
         # Handle the case when the post with the given ID does not exist
         return render_template('post_not_found.html', post_id=post_id)
