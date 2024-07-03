@@ -80,7 +80,6 @@
             {% endif %}
             <p class="cont">{{ post.content[:100] }}{% if len(post.content) > 100 %}... <a class="read-more" href="{{ url_for('view_post', post_id=post.id) }}">Read more</a>{% endif %}</p>
             <p class="cont"><strong>Posted by:</strong> Admin</p>
-            <p class="cont"><strong>Posted at:</strong> {{ post.created_at }}</p>
         </div>
         {% endfor %}
     </div>
